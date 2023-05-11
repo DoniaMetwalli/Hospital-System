@@ -9,28 +9,37 @@ class ReservePage extends StatefulWidget {
 }
 
 String filter = "";
-List<List<String>> hospitals = [
+
+List<List<String>> hospitalList = [
   ["Hospital A", "Cairo - Nasr City"],
   ["Hospital B", "Cairo - Nasr City"],
   ["Hospital C", "Giza - 6 Octobor"],
   ["Hospital D", "Giza - 6 Octobor"],
 ];
+List<List<String>> hospitals = [];
 
 int hospitalsCount(String filter) {
+  hospitals.clear();
   int count = 0;
   if (filter.isNotEmpty) {
-    for (var element in hospitals) {
-      if (element[1] == filter) count++;
+    for (var element in hospitalList) {
+      if (element[1] == filter) {
+        count++;
+        hospitals.add(element);
+      }
     }
     return count;
   }
-  return hospitals.length;
+  hospitals = hospitalList;
+  return hospitalList.length;
 }
 
 String selectedState = "Cairo";
-String selectedCity = "";
-List<String> states = ["Cairo", "Giza"];
-Map<String, String> city = {"Cairo": "Nasr City", "Giza": "6 Octobor"};
+String selectedCity = cities["Cairo"]![0];
+Map<String, List<String>> cities = {
+  "Cairo": ["Nasr City", "Abbassia "],
+  "Giza": ["6 Octobor", "Faisal"]
+};
 
 class _ReservePageState extends State<ReservePage> {
   @override
@@ -52,8 +61,8 @@ class _ReservePageState extends State<ReservePage> {
                     content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                       return Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               "State",
                               style: TextStyle(fontSize: 16),
@@ -71,31 +80,32 @@ class _ReservePageState extends State<ReservePage> {
                               height: 2,
                               color: const Color.fromARGB(255, 106, 183, 255),
                             ),
-                            items: [
+                            items: const [
                               DropdownMenuItem(
-                                child: Text("Cairo"),
                                 value: "Cairo",
+                                child: Text("Cairo"),
                               ),
                               DropdownMenuItem(
-                                child: Text("Giza"),
                                 value: "Giza",
+                                child: Text("Giza"),
                               ),
                             ],
                             onChanged: (value) {
                               setState(() {
                                 selectedState = value!;
+                                selectedCity = cities[selectedState]![0];
                               });
                             },
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               "City",
                               style: TextStyle(fontSize: 16),
                             ),
                           ),
                           DropdownButton<String>(
-                            value: selectedCity,
+                            value: cities[selectedState]![0],
                             icon: const Icon(Icons.arrow_downward),
                             elevation: 16,
                             style: const TextStyle(
@@ -106,21 +116,13 @@ class _ReservePageState extends State<ReservePage> {
                               height: 2,
                               color: const Color.fromARGB(255, 106, 183, 255),
                             ),
-                            items: [
-                              DropdownMenuItem(
-                                child: Text(""),
-                                value: "",
-                              ),
-                              selectedState == "Cairo"
-                                  ? DropdownMenuItem(
-                                      child: Text("Nasr City"),
-                                      value: "Nasr City",
-                                    )
-                                  : DropdownMenuItem(
-                                      child: Text("6 Octobor"),
-                                      value: "6 Octobor",
-                                    )
-                            ],
+                            items: cities[selectedState]!
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                             onChanged: (value) {
                               setState(() {
                                 selectedCity = value!;
@@ -133,7 +135,9 @@ class _ReservePageState extends State<ReservePage> {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          setState(() {});
+                          setState(() {
+                            filter = "$selectedState - $selectedCity";
+                          });
                           Navigator.pop(context);
                         },
                         child: const Text('OK'),

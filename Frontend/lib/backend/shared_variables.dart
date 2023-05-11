@@ -1,1 +1,1 @@
-bool isLoged = false;
+bool isLoged = true;

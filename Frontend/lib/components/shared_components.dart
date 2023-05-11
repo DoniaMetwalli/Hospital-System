@@ -45,13 +45,13 @@ dynamic hospitalCard(String hopitalName, String location) {
         textColor: Colors.black,
         title: Text(
           hopitalName,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
         ),
         subtitle: Text(
           location,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
         ),
-        children: [
+        children: const [
           Text(
             "Text",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
