@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/backend/shared_variables.dart';
+
+import '../pages/intial_page.dart';
 
 dynamic snackBar(String message, BuildContext context,
     {int duration = 1500, double fontSize = 16}) {
@@ -25,4 +28,130 @@ dynamic loadingIndecator(BuildContext context, {bool dismissible = false}) {
       child: const Center(child: CircularProgressIndicator()),
     ),
   );
+}
+
+dynamic hospitalCard(String hopitalName, String location) {
+  return Container(
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: const Color.fromARGB(255, 106, 183, 255),
+      ),
+      child: ExpansionTile(
+        collapsedShape: null,
+        initiallyExpanded: false,
+        iconColor: Colors.black,
+        textColor: Colors.black,
+        title: Text(
+          hopitalName,
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+        ),
+        subtitle: Text(
+          location,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+        ),
+        children: [
+          Text(
+            "Text",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+          Text(
+            "Text",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ));
+}
+
+void logout(BuildContext context) {
+  isLoged = false;
+  Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const IntialPage(),
+      ),
+      (Route<dynamic> route) => false);
+}
+
+class AboutUsButton extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final VoidCallback pressFunction;
+  const AboutUsButton(
+      {super.key, required this.text, required this.icon, required this.pressFunction});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        onPressed: pressFunction,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0, bottom: 8, top: 8),
+          child: Row(
+            children: [
+              Icon(
+                color: Colors.lightBlue[500],
+                icon,
+                size: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  text,
+                  style: const TextStyle(color: Color.fromARGB(255, 6, 115, 179)),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AboutUsButtonV2 extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final VoidCallback pressFunction;
+  final VoidCallback longPressFunction;
+  const AboutUsButtonV2(
+      {super.key,
+      required this.text,
+      required this.icon,
+      required this.pressFunction,
+      required this.longPressFunction});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        onLongPress: longPressFunction,
+        onPressed: pressFunction,
+        style: const ButtonStyle(
+          alignment: Alignment.centerLeft,
+        ),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 3),
+              child: Icon(
+                color: Colors.lightBlue[500],
+                icon,
+                size: 30,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                text,
+                style: const TextStyle(color: Color.fromARGB(255, 6, 115, 179)),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
