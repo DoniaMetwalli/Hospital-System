@@ -1,0 +1,1 @@
+bool isLoged = false;
