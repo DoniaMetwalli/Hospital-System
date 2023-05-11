@@ -1,0 +1,24 @@
+1 - users 
+	1- patient
+	2- hospital
+	3- doctors
+
+2 - what patient can do:
+	1- register his data and update them
+	2- reserve nearest place (patient will select search location Ex: Cairo -> Nasr city)
+	3- see his old reservations and upcoming ones
+	4- see his medical history
+	5- cancel any upcoming reservation
+
+3 - what hospital can do: 
+	1- register their data and update them
+	2- add dialysis machines
+	3- update dialysis machine availability (may be under maintenance or fully reserved)
+	4- view, edit, and, reject any reservation
+
+4- what doctor can do:	
+	1- view, edit, and, reject any reservation
+	2- add diagnose to patient medical history
+
+##ToDo 
+Add ERD Description 
