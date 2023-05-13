@@ -31,25 +31,25 @@ dynamic loadingIndecator(BuildContext context, {bool dismissible = false}) {
 }
 
 dynamic hospitalCard(String hopitalName, String location) {
-  return Container(
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: const Color.fromARGB(255, 106, 183, 255),
-      ),
+  return Card(
+      margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
+      color: cardColor,
       child: ExpansionTile(
+        tilePadding:
+            const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
         collapsedShape: null,
         initiallyExpanded: false,
         iconColor: Colors.black,
         textColor: Colors.black,
         title: Text(
           hopitalName,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+          style: const TextStyle(
+              fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
         ),
         subtitle: Text(
           location,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
         ),
         children: const [
           Text(
@@ -78,7 +78,10 @@ class AboutUsButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback pressFunction;
   const AboutUsButton(
-      {super.key, required this.text, required this.icon, required this.pressFunction});
+      {super.key,
+      required this.text,
+      required this.icon,
+      required this.pressFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +94,7 @@ class AboutUsButton extends StatelessWidget {
           child: Row(
             children: [
               Icon(
-                color: Colors.lightBlue[500],
+                color: iconColor,
                 icon,
                 size: 30,
               ),
@@ -99,7 +102,6 @@ class AboutUsButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16),
                 child: Text(
                   text,
-                  style: const TextStyle(color: Color.fromARGB(255, 6, 115, 179)),
                 ),
               )
             ],

@@ -19,7 +19,7 @@ List<List<String>> hospitalList = [
 List<List<String>> hospitals = [];
 
 int hospitalsCount(String filter) {
-  hospitals.clear();
+  hospitals = [];
   int count = 0;
   if (filter.isNotEmpty) {
     for (var element in hospitalList) {
@@ -57,8 +57,9 @@ class _ReservePageState extends State<ReservePage> {
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     scrollable: true,
-                    title: const Text('Developed by:'),
-                    content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                    title: const Text('Location filter'),
+                    content: StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
                       return Column(
                         children: [
                           const Padding(

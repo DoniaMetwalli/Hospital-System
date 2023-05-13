@@ -3,7 +3,7 @@ import '../backend/shared_variables.dart';
 import '../pages/home_page.dart';
 import '../pages/login_page.dart';
 import '../pages/reserve_page.dart';
-import '../pages/settings.dart';
+import 'settings_page.dart';
 
 class IntialPage extends StatefulWidget {
   const IntialPage({super.key});
@@ -22,13 +22,14 @@ class _IntialPageState extends State<IntialPage> {
       return Scaffold(
         body: pages[selectedPage],
         bottomNavigationBar: NavigationBar(
-          destinations: [
+          destinations: const [
             NavigationDestination(
-                icon: Icon(Icons.home, color: Colors.lightBlue[700]), label: "Home"),
+                icon: Icon(Icons.home, color: iconColor), label: "Home"),
             NavigationDestination(
-                icon: Icon(Icons.schedule, color: Colors.lightBlue[700]), label: "Reserve"),
+                icon: Icon(Icons.schedule, color: iconColor), label: "Reserve"),
             NavigationDestination(
-                icon: Icon(Icons.settings, color: Colors.lightBlue[700]), label: "Settings"),
+                icon: Icon(Icons.settings, color: iconColor),
+                label: "Settings"),
           ],
           onDestinationSelected: (index) {
             setState(() {
