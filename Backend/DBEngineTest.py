@@ -1,12 +1,11 @@
-import mysql.connector
+import psycopg2
+mydb = psycopg2.connect(database="postgres",
+                        host="db.cfzgdevqdufdyilypaha.supabase.co",
+                        user="postgres",
+                        password="u=fH]Cu&)2u4^hS",
+                        port="5432")
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="123456789"
-)
-mydb.connect(database = 'classicmodels')
-query = "SELECT * FROM customers"
+query = "SELECT * FROM hospital"
 cnx = mydb.cursor()
 cnx.execute(query)
 print([x for x in cnx])
