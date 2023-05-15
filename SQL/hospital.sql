@@ -1,16 +1,8 @@
 -- CREATE DATABASE hemodialysisApp;
 -- drop database hemodialysisApp;
 -- set search_path to hemodialysisApp, public;
-create table test
-(
-    potato int
-);
-insert into test(potato)
-values (15);
-select *
-from test;
--- drop tables;
 
+-- drop tables;
 drop table hospital cascade;
 drop table app_user cascade;
 drop table doctor cascade;
@@ -28,14 +20,15 @@ create sequence appointment_sequence start with 6000000 maxvalue 6999999;
 
 CREATE TABLE hospital
 (
-    hospital_id  int unique primary key not null default nextval('hospital_sequence'),
-    address      varchar(255),
-    phone_number varchar(255),
-    email        varchar(255),
-    city         varchar(255),
-    area         varchar(255),
-    username     varchar(64),
-    password     varchar(64)
+    hospital_id   int unique primary key not null default nextval('hospital_sequence'),
+    hospital_name varchar(255),
+    address       varchar(255),
+    phone_number  varchar(255),
+    email         varchar(255),
+    city          varchar(255),
+    area          varchar(255),
+    username      varchar(64),
+    password      varchar(64)
 );
 
 -- I change user -> app_user because:
@@ -57,13 +50,12 @@ CREATE TABLE app_user
 CREATE table patient
 (
     birthday   DATE,
-    patient_id int unique not null primary key default nextval('patient_sequence'),
+    patient_id int unique not null primary key,
     foreign key (patient_id) references app_user (user_id)
 );
 
 CREATE table doctor
 (
-    birthday    DATE,
     doctor_id   int unique not null,
     hospital_id int unique not null,
     foreign key (hospital_id) references hospital (hospital_id),
@@ -73,7 +65,6 @@ CREATE table doctor
 
 CREATE table dialysis_machine
 (
-
     start_time          int,
     time_slot           int,
     price               int,
