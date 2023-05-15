@@ -22,3 +22,18 @@
 
 ##ToDo 
 Add ERD Description 
+
+login 
+signup 
+get hospitals
+get medical_record
+make appointment
+edit appointment
+edit patient 
+add to medical 
+add hemodialysis  
+edit hemodialysis  
+
+view 
+Csci305
+u=fH]Cu&)2u4^hS
