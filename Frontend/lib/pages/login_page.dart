@@ -48,30 +48,6 @@ class _LoginPageState extends State<LoginPage> {
                       if (user.text.isNotEmpty && password.text.isNotEmpty) {
                         isLoged = true;
                         widget.loged();
-                        //   if (betaTester.contains(user.text.toLowerCase().trim())) {
-                        //     loadingIndecator(context);
-                        //     signIn(user.text.trim(), password.text).then((signInStatus) {
-                        //       if (signInStatus == 200) {
-                        //         Navigator.pop(context);
-                        //         widget.loged();
-                        //       } else if (signInStatus == 201) {
-                        //         snackBar("Welcome To NuHelper :)", context);
-                        //         Navigator.pop(context);
-                        //         widget.loged();
-                        //       } else if (signInStatus == 401) {
-                        //         snackBar("Wrong Credentials", context);
-                        //         Navigator.pop(context);
-                        //       } else if (signInStatus == 403) {
-                        //         snackBar("Sorry but your ARE BANNED (╯‵□′)╯︵┻━┻", context);
-                        //         Navigator.pop(context);
-                        //       } else {
-                        //         snackBar("Error code $signInStatus", context);
-                        //         Navigator.pop(context);
-                        //       }
-                        //     });
-                        //   } else {
-                        //     snackBar("YOU ARE NOT A BETA TESTER (* ￣︿￣)", context);
-                        //   }
                       } else {
                         snackBar("Please fill Username/Password field. ╰（‵□′）╯", context);
                       }

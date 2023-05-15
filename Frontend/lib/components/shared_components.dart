@@ -35,21 +35,18 @@ dynamic hospitalCard(String hopitalName, String location) {
       margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
       color: cardColor,
       child: ExpansionTile(
-        tilePadding:
-            const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
+        tilePadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
         collapsedShape: null,
         initiallyExpanded: false,
         iconColor: Colors.black,
         textColor: Colors.black,
         title: Text(
           hopitalName,
-          style: const TextStyle(
-              fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
         ),
         subtitle: Text(
           location,
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
         ),
         children: const [
           Text(
@@ -78,10 +75,7 @@ class AboutUsButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback pressFunction;
   const AboutUsButton(
-      {super.key,
-      required this.text,
-      required this.icon,
-      required this.pressFunction});
+      {super.key, required this.text, required this.icon, required this.pressFunction});
 
   @override
   Widget build(BuildContext context) {

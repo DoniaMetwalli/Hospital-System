@@ -16,7 +16,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Upcoming Appointments"),
       ),
-      body: ListView(children: [upcomingAppoinmentCard(context)]),
+      body: ListView(children: [
+        upcomingAppoinmentCard(context),
+      ]),
     );
   }
 }

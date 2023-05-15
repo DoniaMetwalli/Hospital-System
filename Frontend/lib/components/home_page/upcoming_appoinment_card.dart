@@ -7,18 +7,17 @@ Card upcomingAppoinmentCard(BuildContext context) {
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
     child: ListTile(
-      contentPadding:
-          const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
+      contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
       title: const Text(
         "Hospital Name",
         style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w500,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
         ),
       ),
       subtitle: const Text("Doctor's Name \nDate",
           style: TextStyle(
-            fontSize: 16,
+            // fontSize: 8,
             fontWeight: FontWeight.w400,
           )),
       isThreeLine: true,

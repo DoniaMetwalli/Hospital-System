@@ -1,37 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hemodialysis_csci305/components/shared_components.dart';
 
+import '../backend/reservation.dart';
+
 class ReservePage extends StatefulWidget {
   const ReservePage({super.key});
 
   @override
   State<ReservePage> createState() => _ReservePageState();
-}
-
-String filter = "";
-
-List<List<String>> hospitalList = [
-  ["Hospital A", "Cairo - Nasr City"],
-  ["Hospital B", "Cairo - Nasr City"],
-  ["Hospital C", "Giza - 6 Octobor"],
-  ["Hospital D", "Giza - 6 Octobor"],
-];
-List<List<String>> hospitals = [];
-
-int hospitalsCount(String filter) {
-  hospitals = [];
-  int count = 0;
-  if (filter.isNotEmpty) {
-    for (var element in hospitalList) {
-      if (element[1] == filter) {
-        count++;
-        hospitals.add(element);
-      }
-    }
-    return count;
-  }
-  hospitals = hospitalList;
-  return hospitalList.length;
 }
 
 String selectedState = "Cairo";
@@ -58,8 +34,7 @@ class _ReservePageState extends State<ReservePage> {
                   builder: (BuildContext context) => AlertDialog(
                     scrollable: true,
                     title: const Text('Location filter'),
-                    content: StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
+                    content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                       return Column(
                         children: [
                           const Padding(
