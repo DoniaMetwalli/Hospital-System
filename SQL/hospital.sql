@@ -5,8 +5,10 @@ create table test
 (
     potato int
 );
-insert into test(potato) values (15);
-select * from test;
+insert into test(potato)
+values (15);
+select *
+from test;
 -- drop tables;
 
 drop table hospital cascade;
@@ -84,7 +86,8 @@ CREATE table dialysis_machine
 CREATE table appointment
 (
     status              varchar(255),
-    --     time epoch ,
+    time                int,
+    slot                int,
     appointment_id      int unique not null primary key default nextval('appointment_sequence'),
     dialysis_machine_id int unique not null,
     hospital_id         int unique not null,
