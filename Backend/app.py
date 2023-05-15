@@ -146,7 +146,7 @@ class MedicalRecordEntry(BaseModel):
             }
         }
 
-@app.put("/Login")
+@app.post("/Login")
 async def Login(loginInfo: LoginInfo):
     query = "SELECT u.user_type, u.user_id, u.first_name, u.last_name, u.phone_number, u.gender, u.email FROM app_user u WHERE u.username = %s AND u.password = %s;"
     data = (loginInfo.hashedUsername, loginInfo.hashedPassword)
@@ -198,9 +198,33 @@ async def SignUp(patientInfo: PatientInfo, loginInfo:LoginInfo)-> bool:
         conn.close()
         return False
 
-@app.get("/GetHospitalList")
-async def GetHospitalList(name:str = None, city:str = None, area:str = None)-> list[Hospital]:
-    pass
+@app.put("/GetHospitalList")
+async def GetHospitalList(Name:str = None, City:str = None, Area:str = None)-> list[Hospital]:
+    params = []
+    conn = psycopg2.connect(**dbInfo)
+    cnx = conn.cursor()
+    if Name != None and len(Name)>0:
+        params.append(("hospital.hospital_name = %s",Name))
+    if City != None and len(City)>0:
+        params.append(("hospital.city = %s",City))
+    if Area != None and len(Area)>0:
+        params.append(("hospital.area = %s",Area))
+
+    query = "SELECT hospital.hospital_id, hospital.hospital_name, hospital.address, hospital.phone_number, hospital.email, hospital.city, hospital.area FROM hospital"
+    results = []
+    if len(params) > 0:
+        query += " WHERE " + " AND ".join([param[0] for param in  params]) + ';'
+        cnx.execute(query, tuple(param[1] for param in params))
+    else:
+        query += ";"
+        cnx.execute(query)  
+    results = cnx.fetchall()
+    Hospitals = []
+    for result in results:
+        Hospitals.append(Hospital(id=result[0], name=result[1], address=result[2], phone_number=result[3], email=result[4], city=result[5], area=result[6]))
+    conn.close()
+    return Hospitals
+
 
 @app.get("/GetMedicalRecord")
 async def GetMedicalRecord(patient_id:int)-> list[MedicalRecordEntry]:
