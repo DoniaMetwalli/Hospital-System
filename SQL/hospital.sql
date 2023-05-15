@@ -11,6 +11,12 @@ drop table patient cascade;
 drop table medical_record cascade;
 drop table dialysis_machine cascade;
 
+insert into app_user(user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+values (nextval('patient_sequence'), 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'potato010',
+        'p@ss010');
+insert into app_user(user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+values (nextval('doctor_sequence'), 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', 'tomBlue', 'p@ss020');
+select * from doctor where doctor_id= (select last_value from doctor_sequence);
 create sequence patient_sequence start with 1000000 maxvalue 1999999;
 create sequence doctor_sequence start with 2000000 maxvalue 2999999;
 create sequence hospital_sequence start with 3000000 maxvalue 3999999;
@@ -47,26 +53,13 @@ CREATE TABLE app_user
     password     varchar(64)
 );
 
-CREATE table patient
-(
-    birthday   DATE,
-    patient_id int unique not null primary key,
-    foreign key (patient_id) references app_user (user_id)
-);
 
-CREATE table doctor
-(
-    doctor_id   int unique not null,
-    hospital_id int unique not null,
-    foreign key (hospital_id) references hospital (hospital_id),
-    foreign key (doctor_id) references app_user (user_id),
-    primary key (doctor_id)
-);
 
 CREATE table dialysis_machine
 (
     start_time          int,
     time_slot           int,
+    slots_number        int,
     price               int,
     availability        bool,
     dialysis_machine_id int unique not null primary key default nextval('dialysis_machine_sequence'),
@@ -77,7 +70,7 @@ CREATE table dialysis_machine
 CREATE table appointment
 (
     status              varchar(255),
-    time                int,
+    time                date,
     slot                int,
     appointment_id      int unique not null primary key default nextval('appointment_sequence'),
     dialysis_machine_id int unique not null,
