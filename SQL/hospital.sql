@@ -1,6 +1,7 @@
 -- CREATE DATABASE hemodialysisApp;
 -- drop database hemodialysisApp;
 -- set search_path to hemodialysisApp, public;
+CREATE TYPE appointment_statuses AS ENUM ('booked', 'rejected by hospital', 'rejected by doctor','canceled','fulfilled');
 
 -- drop tables;
 drop table hospital cascade;
@@ -83,7 +84,7 @@ CREATE table appointment
     hospital_id         int        not null,
     patient_id          int        not null,
     doctor_id           int        not null,
-    status              varchar(255),
+    status              appointment_statuses,
     time                date,
     slot                int,
     foreign key (dialysis_machine_id) references dialysis_machine (dialysis_machine_id),
@@ -106,16 +107,9 @@ CREATE table medical_record
 
 INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
 VALUES (2000000, 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', 'tomBlue', 'p@ss020');
+
 INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
 VALUES (1000000, 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'potato010', 'p@ss010');
-
-INSERT INTO public.appointment (status, time, slot, appointment_id, dialysis_machine_id, hospital_id, patient_id,
-                                doctor_id)
-VALUES ('booked', '2023-05-15', 2, 6000002, 4000000, 3000000, 1000000, 2000000);
-
-INSERT INTO public.dialysis_machine (start_time, time_slot, slots_number, price, availability, dialysis_machine_id,
-                                     hospital_id)
-VALUES (7, 60, 3, 320, true, 4000000, 3000000);
 
 INSERT INTO public.doctor (doctor_id, hospital_id)
 VALUES (2000000, 3000000);
@@ -126,6 +120,15 @@ VALUES (3000000, 'jerry''s hospital', 'Giza / 6October / 1st', '01020304070', 'j
 
 INSERT INTO public.patient (birthday, patient_id)
 VALUES ('2000-05-15', 1000000);
+
+INSERT INTO public.dialysis_machine (start_time, time_slot, slots_number, price, availability, dialysis_machine_id,
+                                     hospital_id)
+VALUES (7, 60, 3, 320, true, 4000000, 3000000);
+
+INSERT INTO public.appointment (status, time, slot, appointment_id, dialysis_machine_id, hospital_id, patient_id,
+                                doctor_id)
+VALUES ('booked', '2023-05-15', 2, 6000002, 4000000, 3000000, 1000000, 2000000);
+
 
 INSERT INTO public.medical_record (doctor_diagnose, record_id, appointment_id, patient_id, doctor_id)
 VALUES ('eat less potato', 5000000, 6000002, 1000000, 2000000);
