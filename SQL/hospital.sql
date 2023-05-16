@@ -11,12 +11,6 @@ drop table patient cascade;
 drop table medical_record cascade;
 drop table dialysis_machine cascade;
 
-insert into app_user(user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
-values (nextval('patient_sequence'), 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'potato010',
-        'p@ss010');
-insert into app_user(user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
-values (nextval('doctor_sequence'), 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', 'tomBlue', 'p@ss020');
-select * from doctor where doctor_id= (select last_value from doctor_sequence);
 create sequence patient_sequence start with 1000000 maxvalue 1999999;
 create sequence doctor_sequence start with 2000000 maxvalue 2999999;
 create sequence hospital_sequence start with 3000000 maxvalue 3999999;
@@ -53,30 +47,45 @@ CREATE TABLE app_user
     password     varchar(64)
 );
 
+CREATE table patient
+(
+    patient_id int unique not null primary key,
+    birthday   DATE,
+    foreign key (patient_id) references app_user (user_id)
+);
 
+CREATE table doctor
+(
+    doctor_id   int unique not null,
+    hospital_id int        not null,
+    availability        bool DEFAULT true,
+    foreign key (hospital_id) references hospital (hospital_id),
+    foreign key (doctor_id) references app_user (user_id),
+    primary key (doctor_id)
+);
 
 CREATE table dialysis_machine
 (
+    dialysis_machine_id int unique not null primary key default nextval('dialysis_machine_sequence'),
+    hospital_id         int        not null,
     start_time          int,
     time_slot           int,
     slots_number        int,
     price               int,
-    availability        bool,
-    dialysis_machine_id int unique not null primary key default nextval('dialysis_machine_sequence'),
-    hospital_id         int unique not null,
+    availability        bool DEFAULT true,
     foreign key (hospital_id) references hospital (hospital_id)
 );
 
 CREATE table appointment
 (
+    appointment_id      int unique not null primary key default nextval('appointment_sequence'),
+    dialysis_machine_id int        not null,
+    hospital_id         int        not null,
+    patient_id          int        not null,
+    doctor_id           int        not null,
     status              varchar(255),
     time                date,
     slot                int,
-    appointment_id      int unique not null primary key default nextval('appointment_sequence'),
-    dialysis_machine_id int unique not null,
-    hospital_id         int unique not null,
-    patient_id          int unique not null,
-    doctor_id           int unique not null,
     foreign key (dialysis_machine_id) references dialysis_machine (dialysis_machine_id),
     foreign key (hospital_id) references hospital (hospital_id),
     foreign key (doctor_id) references doctor (doctor_id),
@@ -87,10 +96,36 @@ CREATE table medical_record
 (
     doctor_diagnose varchar(255),
     record_id       int unique not null primary key default nextval('medical_record_sequence'),
-    appointment_id  int unique not null,
-    patient_id      int unique not null,
-    doctor_id       int unique not null,
+    appointment_id  int        not null,
+    patient_id      int        not null,
+    doctor_id       int        not null,
     foreign key (appointment_id) references appointment (appointment_id),
     foreign key (patient_id) references patient (patient_id),
     foreign key (doctor_id) references doctor (doctor_id)
 );
+
+INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+VALUES (2000000, 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', 'tomBlue', 'p@ss020');
+INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+VALUES (1000000, 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'potato010', 'p@ss010');
+
+INSERT INTO public.appointment (status, time, slot, appointment_id, dialysis_machine_id, hospital_id, patient_id,
+                                doctor_id)
+VALUES ('booked', '2023-05-15', 2, 6000002, 4000000, 3000000, 1000000, 2000000);
+
+INSERT INTO public.dialysis_machine (start_time, time_slot, slots_number, price, availability, dialysis_machine_id,
+                                     hospital_id)
+VALUES (7, 60, 3, 320, true, 4000000, 3000000);
+
+INSERT INTO public.doctor (doctor_id, hospital_id)
+VALUES (2000000, 3000000);
+
+INSERT INTO public.hospital (hospital_id, hospital_name, address, phone_number, email, city, area, username, password)
+VALUES (3000000, 'jerry''s hospital', 'Giza / 6October / 1st', '01020304070', 'jerry@hospital.com', 'giza', '6-october',
+        'jerry', 'jerry1234');
+
+INSERT INTO public.patient (birthday, patient_id)
+VALUES ('2000-05-15', 1000000);
+
+INSERT INTO public.medical_record (doctor_diagnose, record_id, appointment_id, patient_id, doctor_id)
+VALUES ('eat less potato', 5000000, 6000002, 1000000, 2000000);
