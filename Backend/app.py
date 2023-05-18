@@ -176,7 +176,7 @@ async def Login(loginInfo: LoginInfo):
         cnx.execute(query, data)
         pResult = cnx.fetchone()
         conn.close()
-        return PatientInfo(user_id= result[1], firstName= result[2], lastName= result[3], phone_number= result[4], gender= result[5], email= result[6], birthdate= pResult[0])
+        return PatientInfo(user_id= result[1], firstName= result[2], lastName= result[3], phone_number= result[4], gender= result[5], email= result[6], birthdate= str(pResult[0]))
     
     elif result[0] == 'd':
         query = "SELECT d.hospital_id FROM doctor d WHERE d.doctor_id = %s;"
@@ -188,7 +188,7 @@ async def Login(loginInfo: LoginInfo):
     
 
 @app.post("/SignUp")
-async def SignUp(patientInfo: PatientInfo, loginInfo:LoginInfo)-> bool:
+async def SignUp(patientInfo: PatientInfo, loginInfo:LoginInfo)-> int:
     try:
         conn = psycopg2.connect(**dbInfo)
         cnx = conn.cursor()
@@ -205,10 +205,10 @@ async def SignUp(patientInfo: PatientInfo, loginInfo:LoginInfo)-> bool:
         cnx.execute(query, data)
         conn.commit()
         conn.close()
-        return True
+        return patientInfo.user_id
     except:
         conn.close()
-        return False
+        return -1
 
 @app.get("/GetHospitalList")
 async def GetHospitalList(Name:str = None, City:str = None, Area:str = None)-> list[Hospital]:
