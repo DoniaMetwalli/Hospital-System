@@ -287,14 +287,20 @@ async def GetAppointments(patient_id:int, unFullfilledOnly:bool)-> list[Appointm
 
 @app.post("/ChangeAppointment")
 async def ChangeAppointment(appointment: Appointment)-> bool:
-    query = "UPDATE appointment SET status = %s, time = %s, slot = %s, dialysis_machine_id = %s, hospital_id = %s, doctor_id = %s WHERE appointment_id = %s;"
-    data = (appointment.status, appointment.time, appointment.slot, appointment.dialysis_machine_id, appointment.hospital_id, appointment.doctor_id, appointment.appointment_id)
-    conn = psycopg2.connect(**dbInfo)
-    cnx = conn.cursor()
-    cnx.execute(query, data)
-    conn.commit()
-    conn.close()
-
+    try:
+        query = "UPDATE appointment SET status = %s, time = %s, slot = %s, dialysis_machine_id = %s, hospital_id = %s, doctor_id = %s WHERE appointment_id = %s;"
+        data = (appointment.status, appointment.time, appointment.slot, appointment.dialysis_machine_id, appointment.hospital_id, appointment.doctor_id, appointment.appointment_id)
+        conn = psycopg2.connect(**dbInfo)
+        cnx = conn.cursor()
+        cnx.execute(query, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Exception as e:
+        print(e)
+        conn.close()
+        return False
+    
 @app.post("/EditUserInfo")
 async def EditUserInfo(loginInfo:LoginInfo, patientInfo: PatientInfo = None, doctorInfo:DoctorInfo = None)-> bool:
     try:
