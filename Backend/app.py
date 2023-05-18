@@ -304,11 +304,11 @@ async def EditUserInfo(loginInfo:LoginInfo, patientInfo: PatientInfo = None, doc
         data2 = ()
         if patientInfo != None:
             query2 = "UPDATE patient SET birthday = %s WHERE patient_id = %s;"
-            data = (patientInfo.firstName, patientInfo.lastName, patientInfo.email, patientInfo.phone_number, patientInfo.gender) 
+            data = (patientInfo.firstName, patientInfo.lastName, patientInfo.email, patientInfo.phone_number, patientInfo.gender,patientInfo.user_id) 
             data2 = (patientInfo.birthdate, patientInfo.user_id)
         elif doctorInfo != None:
             query2 = "UPDATE doctor SET hospital_id = %s WHERE doctor_id = %s;"
-            data = (doctorInfo.firstName, doctorInfo.lastName, doctorInfo.email,doctorInfo.phone_number, doctorInfo.gender) 
+            data = (doctorInfo.firstName, doctorInfo.lastName, doctorInfo.email,doctorInfo.phone_number, doctorInfo.gender,doctorInfo.user_id) 
             data2 = (doctorInfo.hospital_id, doctorInfo.user_id)
         conn = psycopg2.connect(**dbInfo)
         cnx = conn.cursor()
