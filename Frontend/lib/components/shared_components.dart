@@ -65,11 +65,11 @@ dynamic hospitalCard(Map<String, dynamic> hospitalsList) {
         children: [
           Text(
             hospitalsList["phone_number"],
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
           Text(
             hospitalsList["email"],
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
           ),
         ],
       ));

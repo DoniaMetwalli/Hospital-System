@@ -1,44 +1,43 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/pages/home_page.dart';
 
 import '../../backend/shared_variables.dart';
 
-Card upcomingAppoinmentCard(BuildContext context) {
+Card upcomingAppoinmentCard(Map<String, dynamic> appointmentsList,BuildContext context) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
     child: ListTile(
       contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
-      title: const Text(
-        "Hospital Name",
-        style: TextStyle(
+      title: Text(
+        "${appointmentsList["hospital_id"]}",
+        style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
       ),
-      subtitle: const Text("Doctor's Name \nDate",
-          style: TextStyle(
+      subtitle: Text("${appointmentsList["doctor_id"]}\n ${appointmentsList["time"]}",
+          style: const TextStyle(
             // fontSize: 8,
             fontWeight: FontWeight.w400,
           )),
       isThreeLine: true,
-      onTap: () => upcomingAppoinmentAlert(context),
+      onTap: () => upcomingAppoinmentAlert(appointmentsList,context),
     ),
   );
 }
 
-Future<dynamic> upcomingAppoinmentAlert(BuildContext context) {
+Future<dynamic> upcomingAppoinmentAlert(Map<String, dynamic> appointmentsList,BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text("DEETS"),
+      title: const Text("Details"),
       actions: [
         TextButton(
           onPressed: () => close(context),
-          child: const Text("Cancel"),
-        ),
-        TextButton(
-          onPressed: () => close(context),
-          child: const Text("Okay / Done"),
+          child: const Text("Okay"),
         ),
       ],
     ),
