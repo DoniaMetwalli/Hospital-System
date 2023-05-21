@@ -29,8 +29,8 @@ Future<List> login({
 }) async {
   Dio dio = Dio();
   try {
-    username = hashSha256(username);
-    password = hashSha256(password);
+    username = hashSha256(username.trim());
+    password = hashSha256(password.trim());
 
     final result = await dio.post(
       '$apiLink/Login',
@@ -132,8 +132,7 @@ Future<List> getHospitals() async {
 Future<List> getMedicalRecord({required int patientId}) async {
   Dio dio = Dio();
   try {
-    final result =
-        await dio.get('$apiLink/GetMedicalRecord?patient_id=$patientId');
+    final result = await dio.get('$apiLink/GetMedicalRecord?patient_id=$patientId');
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
@@ -193,8 +192,8 @@ Future<List> getAppointments({
 }) async {
   Dio dio = Dio();
   try {
-    final result = await dio.get(
-        '$apiLink/GetAppointments?patient_id=$patientId&unFullfilledOnly=$isFullFilled');
+    final result = await dio
+        .get('$apiLink/GetAppointments?patient_id=$patientId&unFullfilledOnly=$isFullFilled');
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
@@ -252,8 +251,7 @@ Future<List> changeAppointment({
 Future<List> getDialysisMachines({required int hospitalId}) async {
   Dio dio = Dio();
   try {
-    final result =
-        await dio.get('$apiLink/GetDialysisMachines?hospitalID=$hospitalId');
+    final result = await dio.get('$apiLink/GetDialysisMachines?hospitalID=$hospitalId');
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {

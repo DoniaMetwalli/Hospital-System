@@ -113,11 +113,17 @@ CREATE table medical_record
     foreign key (doctor_id) references doctor (doctor_id)
 );
 
-INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
-VALUES (2000000, 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', 'tomBlue', 'p@ss020');
+-- INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+-- VALUES (2000000, 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', 'tomBlue', 'p@ss020');
+--
+-- INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+-- VALUES (1000000, 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'potato010', 'p@ss010');
 
 INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
-VALUES (1000000, 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'potato010', 'p@ss010');
+VALUES (2000000, 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', '0ea6e0a739c5bdea8e67685c1061f84de9f4895e790cf443861681e0f175aded', 'e4c94027fdbddef50178f9e1ffad46adc2a1275cc3dd62fcc43131195bc0e48d');
+
+INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+VALUES (1000000, 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'b31c7dd68580fe443d114b8536a969024b6cccf9122dc4e77b6b36b96bf8b2b8', '9a1893a082c6ea59f56a2dd38b0776afd338ae0546e575720ac93b66bd4c062b');
 
 INSERT INTO public.hospital (hospital_id, hospital_name, address, phone_number, email, city, area, username, password)
 VALUES (3000000, 'jerry''s hospital', 'Giza / 6October / 1st', '01020304070', 'jerry@hospital.com', 'giza', '6-october',
