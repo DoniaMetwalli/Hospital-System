@@ -17,7 +17,7 @@ dynamic snackBar(String message, BuildContext context,
   );
 }
 
-dynamic loadingIndecator(BuildContext context, {bool dismissible = false}) {
+dynamic loadingIndecatorContext(BuildContext context, {bool dismissible = false}) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -30,7 +30,21 @@ dynamic loadingIndecator(BuildContext context, {bool dismissible = false}) {
   );
 }
 
-dynamic hospitalCard(String hopitalName, String location) {
+dynamic loadingIndecator() {
+  return const Center(child: CircularProgressIndicator());
+}
+
+/*
+  Get hospital list just call it :)
+  output :
+  [200, [{id: 3000000, name: jerry's hospital, address: Giza / 6October / 1st, phone_number: 01020304070, email: jerry@hospital.com, city: giza, area: 6-october}]]
+  output[0] {ex: 200} is the status code (tip: check if status is 200 then it's ok otherwise alert the user)
+  output[1] is the hospital list you can access any element in list in this way 
+  output[1][hospital_index][hospital_data]
+  output[1][0]["name"] will output jerry's hospital
+  - You will find GetHospitals example below in main funtion 
+*/
+dynamic hospitalCard(Map<String, dynamic> hospitalsList) {
   return Card(
       margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
       color: cardColor,
@@ -41,21 +55,21 @@ dynamic hospitalCard(String hopitalName, String location) {
         iconColor: Colors.black,
         textColor: Colors.black,
         title: Text(
-          hopitalName,
+          hospitalsList["name"],
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
         ),
         subtitle: Text(
-          location,
+          hospitalsList["address"],
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
         ),
-        children: const [
+        children: [
           Text(
-            "Text",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            hospitalsList["phone_number"],
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
           Text(
-            "Text",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            hospitalsList["email"],
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ],
       ));

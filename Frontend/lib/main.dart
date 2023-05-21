@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../pages/intial_page.dart';
 import 'backend/shared_variables.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  final box = await Hive.openBox("patient");
+
+//  Output : [200, {user_id: 1000002, firstName: sesame, lastName: 1, email: sesame1@potato.com, phone_number: 01020304060, birthdate: 2021-01-17, gender: m}]
+  for (var key in stringKeys) {
+    box.put(key, "");
+  }
+  for (var key in boolKeys) {
+    box.put(key, false);
+  }
+  for (var key in intKeys) {
+    box.put(key, 0);
+  }
+
   runApp(const Main());
 }
 
