@@ -49,9 +49,8 @@ class _LoginPageState extends State<LoginPage> {
                     color: const Color.fromARGB(255, 39, 187, 255),
                     pressFunction: () async {
                       if (user.text.trim().isNotEmpty && password.text.trim().isNotEmpty) {
-                        loadingIndecator();
+                        loadingIndecatorContext(context);
                         final result = await login(username: user.text, password: password.text);
-                        //  Output : [200, {user_id: 1000002, firstName: sesame, lastName: 1, email: sesame1@potato.com, phone_number: 01020304060, birthdate: 2021-01-17, gender: m}]
                         if (result[0] == 200) {
                           isLoged = true;
                           widget.loged();

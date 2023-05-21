@@ -1,7 +1,4 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
-import 'package:hemodialysis_csci305/pages/home_page.dart';
 
 import '../../backend/shared_variables.dart';
 
@@ -34,6 +31,7 @@ Future<dynamic> upcomingAppoinmentAlert(Map<String, dynamic> appointmentsList,Bu
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Details"),
+      
       actions: [
         TextButton(
           onPressed: () => close(context),

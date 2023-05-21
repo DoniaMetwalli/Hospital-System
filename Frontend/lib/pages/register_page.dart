@@ -11,6 +11,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final firstName = TextEditingController();
+  final lastName = TextEditingController();
   final email = TextEditingController();
 
   final password = TextEditingController();
@@ -26,12 +28,52 @@ class _RegisterPageState extends State<RegisterPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LoginTextField(hintText: "Your Email", obscureText: false, controller: email),
-            LoginTextField(hintText: "Your Password", obscureText: true, controller: password),
-            LoginTextField(
-                hintText: "Re-enter Your Password",
-                obscureText: true,
-                controller: passwordConfirmation),
+            RegisterTextField(
+              hintText: "Your First Name",
+              obscureText: false,
+              controller: email,
+              keyboardType: TextInputType.name,
+            ),
+            RegisterTextField(
+              hintText: "Your Last Name",
+              obscureText: false,
+              controller: email,
+              keyboardType: TextInputType.name,
+            ),
+            RegisterTextField(
+              hintText: "Your Email",
+              obscureText: false,
+              controller: email,
+              keyboardType: TextInputType.emailAddress,
+            ),
+            RegisterTextField(
+                hintText: "Your Phone Number",
+                obscureText: false,
+                controller: email,
+                keyboardType: TextInputType.phone),
+            RegisterTextField(
+                hintText: "Your Birthdate",
+                obscureText: false,
+                controller: email,
+                keyboardType: TextInputType.datetime),
+            RegisterTextField(
+              hintText: "Your Username",
+              obscureText: true,
+              controller: password,
+              keyboardType: TextInputType.name,
+            ),
+            RegisterTextField(
+              hintText: "Your Password",
+              obscureText: true,
+              controller: password,
+              keyboardType: TextInputType.name,
+            ),
+            RegisterTextField(
+              hintText: "Re-enter Your Password",
+              obscureText: true,
+              controller: passwordConfirmation,
+              keyboardType: TextInputType.name,
+            ),
             Row(
               children: [
                 Flexible(
