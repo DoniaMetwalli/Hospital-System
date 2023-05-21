@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-bool isLoged = true;
+final box = Hive.box("user");
 
 const iconColor = Color.fromARGB(255, 101, 172, 137);
 const backgroundColor = Color.fromARGB(255, 218, 233, 218);
@@ -10,8 +11,7 @@ List<List<double>> fontSize = [
   [8, 16],
   [16, 24]
 ];
-//  Output : [200, {user_id: 1000002, firstName: sesame, lastName: 1, email: sesame1@potato.com, phone_number: 01020304060, birthdate: 2021-01-17, gender: m}]
 
-List<String> stringKeys = ["firstName", "lastName"];
+List<String> stringKeys = ["firstName", "lastName", "email"];
 List<String> intKeys = ["userId"];
 List<String> boolKeys = ["loged"];

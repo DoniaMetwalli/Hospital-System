@@ -36,7 +36,7 @@ class _SettingsState extends State<Settings> {
                 snackBar("Soon Or Maybe not :)", context);
               },
             ),
-            isLoged
+            box.get("loged")
                 ? AboutUsButton(
                     text: "Logout",
                     icon: Icons.logout,

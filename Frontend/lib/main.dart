@@ -5,19 +5,23 @@ import 'backend/shared_variables.dart';
 
 void main() async {
   await Hive.initFlutter();
-  final box = await Hive.openBox("patient");
+  final box = await Hive.openBox("user");
 
-//  Output : [200, {user_id: 1000002, firstName: sesame, lastName: 1, email: sesame1@potato.com, phone_number: 01020304060, birthdate: 2021-01-17, gender: m}]
   for (var key in stringKeys) {
-    box.put(key, "");
+    if (box.get(key) == null) {
+      box.put(key, "");
+    }
   }
   for (var key in boolKeys) {
-    box.put(key, false);
+    if (box.get(key) == null) {
+      box.put(key, false);
+    }
   }
   for (var key in intKeys) {
-    box.put(key, 0);
+    if (box.get(key) == null) {
+      box.put(key, 0);
+    }
   }
-
   runApp(const Main());
 }
 
