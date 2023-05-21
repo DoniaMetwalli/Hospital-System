@@ -1,7 +1,5 @@
-import 'dart:js';
 
 import 'package:flutter/material.dart';
-import 'package:hemodialysis_csci305/pages/home_page.dart';
 
 import '../../backend/shared_variables.dart';
 
@@ -12,13 +10,13 @@ Card upcomingAppoinmentCard(Map<String, dynamic> appointmentsList,BuildContext c
     child: ListTile(
       contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
       title: Text(
-        "${appointmentsList["hospital_id"]}",
+        "Hospital Name: ${appointmentsList["hospital"]["name"]}",
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
       ),
-      subtitle: Text("${appointmentsList["doctor_id"]}\n ${appointmentsList["time"]}",
+      subtitle: Text("Hospital Address: ${appointmentsList["hospital"]["address"]}\n Appointment Time: ${appointmentsList["appointment"]["time"]}",
           style: const TextStyle(
             // fontSize: 8,
             fontWeight: FontWeight.w400,
@@ -30,10 +28,13 @@ Card upcomingAppoinmentCard(Map<String, dynamic> appointmentsList,BuildContext c
 }
 
 Future<dynamic> upcomingAppoinmentAlert(Map<String, dynamic> appointmentsList,BuildContext context) {
+  final hospital = appointmentsList["hospital"];
+  final appointment = appointmentsList["appointment"];
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Details"),
+      content: SelectableText("Hospital Name: ${hospital["name"]}\nHospital Address: ${hospital["address"]}\nAppointment Time: ${appointment["time"]}\nDoctor's Name: ${appointmentsList["doctorName"]}\nHospital Phone: ${hospital["phone_number"]},\nDoctor's Phone: ${appointmentsList["doctorPhone"]},\nHospital E-mail: ${hospital["email"]}"),
       actions: [
         TextButton(
           onPressed: () => close(context),
