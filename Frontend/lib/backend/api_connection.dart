@@ -330,7 +330,6 @@ Future<List> appendMedicalRecord({
     return [result.statusCode];
   } on DioError catch (e) {
     if (e.response != null) {
-      print(e);
       return [e.response!.statusCode];
     }
     return [-1];

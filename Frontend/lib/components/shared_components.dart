@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hemodialysis_csci305/backend/reservation.dart';
 import 'package:hemodialysis_csci305/backend/shared_variables.dart';
 
 import '../pages/intial_page.dart';

@@ -28,11 +28,9 @@ class _ReservePageState extends State<ReservePage> {
       (value) {
         if (value[0] == 200) {
           hospitals = value[1];
-          print(value[1][0].runtimeType);
           setState(() {
             loading = false;
           });
-          print(hospitals);
         }
       },
     );

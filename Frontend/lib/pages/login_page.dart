@@ -52,7 +52,6 @@ class _LoginPageState extends State<LoginPage> {
                         loadingIndecator();
                         final result = await login(username: user.text, password: password.text);
                         //  Output : [200, {user_id: 1000002, firstName: sesame, lastName: 1, email: sesame1@potato.com, phone_number: 01020304060, birthdate: 2021-01-17, gender: m}]
-                        print(result);
                         if (result[0] == 200) {
                           isLoged = true;
                           widget.loged();

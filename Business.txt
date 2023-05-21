@@ -39,3 +39,4 @@ Csci305
 u=fH]Cu&)2u4^hS
 db.cfzgdevqdufdyilypaha.supabase.co
 postgres
+1_000_000
