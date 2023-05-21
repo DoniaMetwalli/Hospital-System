@@ -141,6 +141,11 @@ class Appointment(BaseModel):
             }
         }
 
+class AppendedAppointment(BaseModel):
+    appointment: Appointment
+    hospital: Hospital
+    doctorName: str
+    doctorPhone: str
 class MedicalRecordEntry(BaseModel):
     Diagnosis: str
     record_id: int
@@ -184,7 +189,7 @@ async def Login(loginInfo: LoginInfo):
         cnx.execute(query, data)
         dResult = cnx.fetchone()
         conn.close()
-        return DoctorInfo(user_id= result[1], firstName= result[2], lastName= result[3], phone_number= result[4], gender= result[5], email= result[6], hospital_id= dResult[0])
+        return DoctorInfo(user_id= result[1], firstName= result[2], lastName= result[3], phone_number= result[4], gender= result[5], email= result[6], hospital_id= dResult[0], availability= True)
     
 
 @app.post("/SignUp")
@@ -269,8 +274,8 @@ async def MakeAppointment(appointment: Appointment)-> bool:
         return False
 
 @app.get("/GetAppointments")
-async def GetAppointments(patient_id:int, unFullfilledOnly:bool)-> list[Appointment]:
-    query = "SELECT a.appointment_id, a.dialysis_machine_id, a.patient_id, a.doctor_id, a.hospital_id, a.time, a.status, a.slot FROM appointment a WHERE a.patient_id = %s"
+async def GetAppointments(patient_id:int, unFullfilledOnly:bool = False)-> list[AppendedAppointment]:
+    query = "SELECT a.appointment_id, a.dialysis_machine_id, a.patient_id, a.doctor_id, a.hospital_id, a.time, a.status, a.slot, h.hospital_name, h.address, h.phone_number, h.email, h.city, h.area, d.first_name, d.last_name, d.phone_number FROM appointment a, hospital h, app_user d WHERE a.patient_id = %s and a.hospital_id = h.hospital_id and a.doctor_id = d.user_id"
     if unFullfilledOnly:
         query += " AND a.status = 'unfulfilled'"
     query += ";"
@@ -281,7 +286,8 @@ async def GetAppointments(patient_id:int, unFullfilledOnly:bool)-> list[Appointm
     results = cnx.fetchall()
     appointments = []
     for result in results:
-        appointments.append(Appointment(appointment_id=result[0], dialysis_machine_id=result[1], patient_id=result[2], doctor_id=result[3], hospital_id=result[4], time=str(result[5]), status=result[6], slot=result[7]))
+        print(result)
+        appointments.append(AppendedAppointment( appointment= Appointment(appointment_id=result[0], dialysis_machine_id=result[1], patient_id=result[2], doctor_id=result[3], hospital_id=result[4], time=str(result[5]), status=result[6], slot=result[7]), hospital= Hospital(id=result[4], name=result[8], address=result[9], phone_number=result[10], email=result[11], city=result[12], area=result[13]), doctorName= f"{result[14]} {result[15]}", doctorPhone= result[16]))
     conn.close()
     return appointments
 
