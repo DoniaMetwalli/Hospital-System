@@ -12,6 +12,14 @@ drop table patient cascade;
 drop table medical_record cascade;
 drop table dialysis_machine cascade;
 
+drop sequence hospital_sequence;
+drop sequence doctor_sequence;
+drop sequence appointment_sequence;
+drop sequence patient_sequence;
+drop sequence medical_record_sequence;
+drop sequence dialysis_machine_sequence;
+
+
 create sequence patient_sequence start with 1000000 maxvalue 1999999;
 create sequence doctor_sequence start with 2000000 maxvalue 2999999;
 create sequence hospital_sequence start with 3000000 maxvalue 3999999;
@@ -111,12 +119,13 @@ VALUES (2000000, 'tom', 'tommy', '01020304060', 'm', 'potato@tomato.com', 'd', '
 INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
 VALUES (1000000, 'potato', 'tomato', '01020304050', 'm', 'potato@tomato.com', 'p', 'potato010', 'p@ss010');
 
-INSERT INTO public.doctor (doctor_id, hospital_id)
-VALUES (2000000, 3000000);
-
 INSERT INTO public.hospital (hospital_id, hospital_name, address, phone_number, email, city, area, username, password)
 VALUES (3000000, 'jerry''s hospital', 'Giza / 6October / 1st', '01020304070', 'jerry@hospital.com', 'giza', '6-october',
         'jerry', 'jerry1234');
+
+INSERT INTO public.doctor (doctor_id, hospital_id)
+VALUES (2000000, 3000000);
+
 
 INSERT INTO public.patient (birthday, patient_id)
 VALUES ('2000-05-15', 1000000);
@@ -127,8 +136,8 @@ VALUES (7, 60, 3, 320, true, 4000000, 3000000);
 
 INSERT INTO public.appointment (status, time, slot, appointment_id, dialysis_machine_id, hospital_id, patient_id,
                                 doctor_id)
-VALUES ('booked', '2023-05-15', 2, 6000002, 4000000, 3000000, 1000000, 2000000);
+VALUES ('booked', '2023-05-15', 2, 6000000, 4000000, 3000000, 1000000, 2000000);
 
 
 INSERT INTO public.medical_record (doctor_diagnose, record_id, appointment_id, patient_id, doctor_id)
-VALUES ('eat less potato', 5000000, 6000002, 1000000, 2000000);
+VALUES ('eat less potato', 5000000, 6000000, 1000000, 2000000);
