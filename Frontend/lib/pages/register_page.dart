@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hemodialysis_csci305/backend/api_connection.dart';
-import 'package:hemodialysis_csci305/pages/home_page.dart';
 import 'package:hemodialysis_csci305/pages/intial_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../components/login/button.dart';
@@ -128,6 +127,12 @@ class _RegisterPageState extends State<RegisterPage> {
                               );
                               if (result[0] == 200) {
                                 box.put("userId", result[1]);
+                                box.put("firstName", firstName.text);
+                                box.put("lastName", lastName.text);
+                                box.put("email", email.text);
+                                box.put("gender", gender.text[0].toLowerCase());
+                                box.put("phone", phoneNumber.text);
+                                box.put("birthdate", birthdate.text);
                                 box.put("loged", true);
                                 Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(builder: (context) => const IntialPage()),

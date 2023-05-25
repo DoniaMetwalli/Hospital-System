@@ -522,4 +522,6 @@ void main(List<String> args) async {
   //       phoneNumber: "01020304070",
   //       username: "TheGreatestDetective"),
   // );
+final person = {"fname":"donia"};
+print(person["age"]);
 }

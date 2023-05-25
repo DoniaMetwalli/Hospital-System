@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/pages/medical_history.dart';
+import 'package:hemodialysis_csci305/pages/reservation_history.dart';
 import '../backend/shared_variables.dart';
 import '../components/shared_components.dart';
 import 'login_page.dart';
@@ -18,45 +20,37 @@ class _SettingsState extends State<Settings> {
         child: Column(
           children: [
             AboutUsButton(
-              text: "Contact Us",
-              icon: Icons.mail,
-              pressFunction: () {},
+              text: "Edit Profile",
+              icon: Icons.edit_document,
+              pressFunction: () {
+                snackBar("Soon Or Maybe not :)", context);
+              },
             ),
             AboutUsButton(
               text: "Reservation History",
               icon: Icons.history,
               pressFunction: () {
-                snackBar("Soon Or Maybe not :)", context);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ReservationHistoryPage(),
+                ));
+                // snackBar("Soon Or Maybe not :)", context);
               },
             ),
             AboutUsButton(
               text: "Medical History",
               icon: Icons.medical_information,
               pressFunction: () {
-                snackBar("Soon Or Maybe not :)", context);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MedicalHistoryPage(),
+                ));
+                // snackBar("Soon Or Maybe not :)", context);
               },
             ),
-            box.get("loged")
-                ? AboutUsButton(
-                    text: "Logout",
-                    icon: Icons.logout,
-                    pressFunction: () {
-                      logout(context);
-                    },
-                  )
-                : AboutUsButton(
-                    text: "Login",
-                    icon: Icons.login,
-                    pressFunction: () {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(
-                              loged: () {},
-                            ),
-                          ),
-                          (Route<dynamic> route) => false);
-                    },
-                  ),
+            AboutUsButton(
+              text: "Contact Us",
+              icon: Icons.mail,
+              pressFunction: () {},
+            ),
             AboutUsButton(
               text: "Devs",
               icon: Icons.code,
@@ -81,6 +75,27 @@ class _SettingsState extends State<Settings> {
                 snackBar("Beta 1", context);
               },
             ),
+            box.get("loged")
+                ? AboutUsButton(
+                    text: "Logout",
+                    icon: Icons.logout,
+                    pressFunction: () {
+                      logout(context);
+                    },
+                  )
+                : AboutUsButton(
+                    text: "Login",
+                    icon: Icons.login,
+                    pressFunction: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(
+                              loged: () {},
+                            ),
+                          ),
+                          (Route<dynamic> route) => false);
+                    },
+                  ),
           ],
         ),
       ),

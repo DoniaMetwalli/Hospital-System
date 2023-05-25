@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hemodialysis_csci305/backend/api_connection.dart';
 import 'package:hemodialysis_csci305/backend/shared_variables.dart';
 
 import '../pages/intial_page.dart';
@@ -87,7 +86,7 @@ Future confirmReserve(BuildContext context) {
       actions: [
         TextButton(
           onPressed: () {
-            // WE SHOULD GO TO OTHER PAGE AND SELECT OUR DOCTOR AND MACHINE 
+            // WE SHOULD GO TO OTHER PAGE AND SELECT OUR DOCTOR AND MACHINE
             // WHAT ASKED YOU TO DO WAS IN HOME PAGE NOT RESERVATION PAGE
             // makeAppointment(patientId: patientId, dialysisMachineId: dialysisMachineId, doctorId: doctorId, hospitalId: hospitalId, time: time, slot: slot)
             Navigator.pop(context);
