@@ -153,7 +153,7 @@ class _ReservePageState extends State<ReservePage> {
 
               itemCount: hospitals.length,
               itemBuilder: (context, index) {
-                return hospitalCard(hospitals[index]);
+                return hospitalCard(hospitals[index], context);
               },
             ),
           );

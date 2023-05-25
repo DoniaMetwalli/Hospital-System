@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/backend/api_connection.dart';
 import 'package:hemodialysis_csci305/backend/shared_variables.dart';
 
 import '../pages/intial_page.dart';
@@ -34,7 +35,7 @@ dynamic loadingIndecator() {
   return const Center(child: CircularProgressIndicator());
 }
 
-dynamic hospitalCard(Map<String, dynamic> hospitalsList) {
+dynamic hospitalCard(Map<String, dynamic> hospitalsList, BuildContext context) {
   return Card(
       margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
       color: cardColor,
@@ -64,9 +65,24 @@ dynamic hospitalCard(Map<String, dynamic> hospitalsList) {
               hospitalsList["email"],
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
             ),
+            TextButton(onPressed: () {confirmReserve(context);}, child: const Text("Reserve", style: TextStyle(color: Colors.black,)))
           ],
         ),
       ));
+}
+
+Future confirmReserve(BuildContext context)
+{
+  return showDialog(
+    context: context, 
+      builder: (context) => AlertDialog(
+        title: const Text("Confirm"),
+        content: const Text("Please click the button to confirm your reservation"),
+        actions: [
+          TextButton(onPressed: () {makeAppointment(patientId: patientId, dialysisMachineId: dialysisMachineId, doctorId: doctorId, hospitalId: hospitalId, time: time, slot: slot)}, child: const Text("Confirm", style: TextStyle(color: Colors.black)))
+        ],
+      ));
+  
 }
 
 void logout(BuildContext context) {
