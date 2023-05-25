@@ -65,24 +65,42 @@ dynamic hospitalCard(Map<String, dynamic> hospitalsList, BuildContext context) {
               hospitalsList["email"],
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
             ),
-            TextButton(onPressed: () {confirmReserve(context);}, child: const Text("Reserve", style: TextStyle(color: Colors.black,)))
+            TextButton(
+                onPressed: () {
+                  confirmReserve(context);
+                },
+                child: const Text("Reserve",
+                    style: TextStyle(
+                      color: Colors.black,
+                    )))
           ],
         ),
       ));
 }
 
-Future confirmReserve(BuildContext context)
-{
+Future confirmReserve(BuildContext context) {
   return showDialog(
-    context: context, 
-      builder: (context) => AlertDialog(
-        title: const Text("Confirm"),
-        content: const Text("Please click the button to confirm your reservation"),
-        actions: [
-          TextButton(onPressed: () {makeAppointment(patientId: patientId, dialysisMachineId: dialysisMachineId, doctorId: doctorId, hospitalId: hospitalId, time: time, slot: slot)}, child: const Text("Confirm", style: TextStyle(color: Colors.black)))
-        ],
-      ));
-  
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Confirm"),
+      content: const Text("Please click the button to confirm your reservation"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            // WE SHOULD GO TO OTHER PAGE AND SELECT OUR DOCTOR AND MACHINE 
+            // WHAT ASKED YOU TO DO WAS IN HOME PAGE NOT RESERVATION PAGE
+            // makeAppointment(patientId: patientId, dialysisMachineId: dialysisMachineId, doctorId: doctorId, hospitalId: hospitalId, time: time, slot: slot)
+            Navigator.pop(context);
+          },
+          child: const Text(
+            "Confirm",
+            // no need for change let the green color
+            // style: TextStyle(color: Colors.black),
+          ),
+        )
+      ],
+    ),
+  );
 }
 
 void logout(BuildContext context) {

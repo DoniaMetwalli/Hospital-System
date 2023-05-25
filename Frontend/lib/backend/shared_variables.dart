@@ -12,6 +12,17 @@ List<List<double>> fontSize = [
   [16, 24]
 ];
 
-List<String> stringKeys = ["firstName", "lastName", "email"];
-List<String> intKeys = ["userId"];
-List<String> boolKeys = ["loged"];
+List<String> stringKeys = [
+  "firstName",
+  "lastName",
+  "email",
+  "gender",
+  "phone",
+  "birthdate",
+];
+List<String> intKeys = [
+  "userId",
+];
+List<String> boolKeys = [
+  "loged",
+];

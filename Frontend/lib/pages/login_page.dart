@@ -56,17 +56,14 @@ class _LoginPageState extends State<LoginPage> {
                         loadingIndecatorContext(context);
                         final result = await login(username: user.text, password: password.text);
                         if (result[0] == 200) {
-// flutter: [200, {user_id: 1000006, firstName: kasld, lastName: daklsm, email: kladsm, phone_number: 789, birthdate: 2023-05-16, gender: f}]
-
+                          box.put("loged", true);
                           box.put("userId", result[1]["user_id"]);
                           box.put("firstName", result[1]["firstName"]);
-                          box.put("lastName",result[1]["lastName"] );
-                          box.put("email",result[1]["email"] );
-                          // ToDo As I am lazy or sleepy now :(
-                          // box.put("gemder", );
-                          // box.put("phone", );
-                          // box.put("birthdate", );
-                          print(result);
+                          box.put("lastName", result[1]["lastName"]);
+                          box.put("email", result[1]["email"]);
+                          box.put("gender", result[1]["gender"]);
+                          box.put("phone", result[1]["phone_number"]);
+                          box.put("birthdate", result[1]["birthdate"]);
                           widget.loged();
                         } else {
                           snackBar("you are not a user", context);
