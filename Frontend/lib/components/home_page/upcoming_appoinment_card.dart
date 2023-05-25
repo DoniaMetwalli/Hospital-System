@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/backend/api_connection.dart';
 
 import '../../backend/shared_variables.dart';
 
@@ -37,9 +38,24 @@ Future<dynamic> upcomingAppoinmentAlert(Map<String, dynamic> appointmentsList,Bu
       content: SelectableText("Hospital Name: ${hospital["name"]}\nHospital Address: ${hospital["address"]}\nAppointment Time: ${appointment["time"]}\nDoctor's Name: ${appointmentsList["doctorName"]}\nHospital Phone: ${hospital["phone_number"]},\nDoctor's Phone: ${appointmentsList["doctorPhone"]},\nHospital E-mail: ${hospital["email"]}"),
       actions: [
         TextButton(
-          onPressed: () => close(context),
-          child: const Text("Okay"),
+          onPressed: () => changeAppointment(
+          appointmentId: appointment["appointment_id"],
+          patientId: box.get("userId"),
+          dialysisMachineId: appointment["dialysis_machine_id"],
+          doctorId: appointment["doctor_id"],
+          hospitalId: appointment["hospital_id"],
+          status: "canceled",
+          time: "2023-05-15 00:00:00",
+          slot: 0,
         ),
+  child: const Text("Cancel Appointment"),
+),
+
+      TextButton(
+        onPressed: () => close(context),
+        child: const Text("Okay"),
+      ),
+        
       ],
     ),
   );
