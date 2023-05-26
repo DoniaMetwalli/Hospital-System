@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hemodialysis_csci305/backend/api_connection.dart';
+import 'package:hemodialysis_csci305/components/shared_components.dart';
 
 import '../../backend/shared_variables.dart';
 
@@ -53,23 +54,40 @@ Future<dynamic> addDiagnosisAlert(
   );
 }
 
-Future<dynamic> addDiagnosis(docAppointment, context, update)
-{
+Future<dynamic> addDiagnosis(docAppointment, context, update) {
   TextEditingController diagnosisController = TextEditingController();
-  return showDialog(context: context,
-   builder: (context) => AlertDialog(
-    title: const Text("Add Your Diagnosis"),
-    content: TextField(
-      controller: diagnosisController,
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Add Your Diagnosis"),
+      content: TextField(
+        controller: diagnosisController,
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              String docDiagnosis = diagnosisController.text;
+              loadingIndecatorContext(context);
+              appendMedicalRecord(
+                      appointmentId: docAppointment["appointment_id"],
+                      diagnosis: docDiagnosis,
+                      doctorId: box.get("userId"),
+                      patientId: docAppointment["patient_id"])
+                  .then((value) {
+                if (value[0] == 200) {
+                  snackBar("Added :)", context);
+                } else {
+                  snackBar("Error :( ${value[0]}", context);
+                }
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              });
+            },
+            child: const Text("Done"))
+      ],
     ),
-    actions: [
-      TextButton(onPressed: () {
-        String docDiagnosis = diagnosisController.text;
-        appendMedicalRecord(appointmentId: docAppointment["appointment_id"], diagnosis: docDiagnosis, doctorId: box.get("userId"), patientId: docAppointment["patient_id"]);}, 
-      child: const Text("Done"))
-    ],
-     ),
-   );
+  );
 }
 
 void close(BuildContext context) {

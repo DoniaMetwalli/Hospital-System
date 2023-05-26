@@ -1,5 +1,3 @@
-import '../components/patient_home_page/upcoming_appoinment_card.dart';
-import '../backend/reservation.dart';
 import 'package:flutter/material.dart';
 import '../backend/api_connection.dart';
 import '../backend/shared_variables.dart';
@@ -55,19 +53,21 @@ class DiagnosisPageState extends State<DiagnosisPage> {
                     textAlign: TextAlign.center,
                   ),
                 )
-                : 
-              ListView.builder(itemCount: docAppointments.length, 
-                              itemBuilder: (context, index) {
-                                return addDiagnosisCard(
-                                  docAppointments[index], 
-                                  context, 
-                                  () { setState(() {
-                                    loading = true;
-                                    backendCall(); });
-                                    },
-                                    );
-                                    },
-              )
+              : ListView.builder(
+                  itemCount: docAppointments.length,
+                  itemBuilder: (context, index) {
+                    return addDiagnosisCard(
+                      docAppointments[index],
+                      context,
+                      () {
+                        setState(() {
+                          loading = true;
+                          backendCall();
+                        });
+                      },
+                    );
+                  },
+                ),
     );
   }
 }

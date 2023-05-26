@@ -165,7 +165,7 @@ class AppendedAppointment(BaseModel):
     doctorPhone: str
 
 
-class MedicalRecordEntry(BaseModel):
+class MedicalRecord(BaseModel):
     diagnosis: str
     doctor_name: str
     diagnosis_time: str
@@ -178,6 +178,25 @@ class MedicalRecordEntry(BaseModel):
                 "doctor_name": "tom tommy",
                 "diagnosis_time": "2023-05-15",
                 "hospital_name": "jerry's hospital",
+            }
+        }
+
+
+class MedicalRecordEntry(BaseModel):
+    Diagnosis: str
+    record_id: int
+    appointment_id: int
+    patient_id: int
+    doctor_id: int
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "Diagnosis": "COVID-19",
+                "record_id": 0,
+                "appointment_id": 0,
+                "patient_id": 0,
+                "doctor_id": 0
             }
         }
 
@@ -266,7 +285,7 @@ async def GetHospitalList(Name: str = None, City: str = None, Area: str = None) 
 
 
 @app.get("/GetMedicalRecord")
-async def GetMedicalRecord(patient_id: int) -> list[MedicalRecordEntry]:
+async def GetMedicalRecord(patient_id: int) -> list[MedicalRecord]:
     query = "SELECT m.doctor_diagnose, CONCAT(d.first_name,' ',d.last_name) AS doctor_name, a.time AS diagnosis_time, h.hospital_name FROM medical_record AS m,app_user AS d, appointment AS a, hospital AS h WHERE m.doctor_id = d.user_id AND a.appointment_id = m.appointment_id AND a.hospital_id = h.hospital_id AND m.patient_id = %s;"
     data = (patient_id,)
     conn = psycopg2.connect(**dbInfo)
@@ -275,7 +294,7 @@ async def GetMedicalRecord(patient_id: int) -> list[MedicalRecordEntry]:
     results = cnx.fetchall()
     medicalRecords = []
     for result in results:
-        medicalRecords.append(MedicalRecordEntry(
+        medicalRecords.append(MedicalRecord(
             diagnosis=result[0], doctor_name=result[1], diagnosis_time=str(result[2]), hospital_name=result[3]))
     conn.close()
     return medicalRecords
