@@ -166,20 +166,18 @@ class AppendedAppointment(BaseModel):
 
 
 class MedicalRecordEntry(BaseModel):
-    Diagnosis: str
-    record_id: int
-    appointment_id: int
-    patient_id: int
-    doctor_id: int
+    diagnosis: str
+    doctor_name: str
+    diagnosis_time: str
+    hospital_name: str
 
     class Config:
         schema_extra = {
             "example": {
-                "Diagnosis": "COVID-19",
-                "record_id": 0,
-                "appointment_id": 0,
-                "patient_id": 0,
-                "doctor_id": 0
+                "diagnosis": "COVID-19",
+                "doctor_name": "tom tommy",
+                "diagnosis_time": "2023-05-15",
+                "hospital_name": "jerry's hospital",
             }
         }
 
@@ -269,7 +267,8 @@ async def GetHospitalList(Name: str = None, City: str = None, Area: str = None) 
 
 @app.get("/GetMedicalRecord")
 async def GetMedicalRecord(patient_id: int) -> list[MedicalRecordEntry]:
-    query = "SELECT m.record_id, m.appointment_id, m.patient_id, m.doctor_id, m.doctor_diagnose FROM medical_record m WHERE m.patient_id = %s;"
+    # query = "SELECT m.record_id, m.appointment_id, m.patient_id, m.doctor_id, m.doctor_diagnose FROM medical_record m WHERE m.patient_id = %s;"
+    query = "SELECT m.doctor_diagnose, CONCAT(d.first_name,' ',d.last_name) AS doctor_name, a.time AS diagnosis_time, h.hospital_name FROM medical_record AS m,app_user AS d, appointment AS a, hospital AS h WHERE m.doctor_id = d.user_id AND a.appointment_id = m.appointment_id AND a.hospital_id = h.hospital_id AND m.patient_id = %s;"
     data = (patient_id,)
     conn = psycopg2.connect(**dbInfo)
     cnx = conn.cursor()
@@ -278,7 +277,7 @@ async def GetMedicalRecord(patient_id: int) -> list[MedicalRecordEntry]:
     medicalRecords = []
     for result in results:
         medicalRecords.append(MedicalRecordEntry(
-            record_id=result[0], appointment_id=result[1], patient_id=result[2], doctor_id=result[3], Diagnosis=result[4]))
+            diagnosis=result[0], doctor_name=result[1], diagnosis_time=str(result[2]), hospital_name=result[3]))
     conn.close()
     return medicalRecords
 
@@ -306,7 +305,6 @@ async def GetAppointments(patient_id: int, status: str = "") -> list[AppendedApp
     if len(status) != 0 and status not in appointment_status:
         raise HTTPException(
             status_code=400,  # bad request
-            detail="fuck you"
         )
 
     # CREATE TYPE appointment_statuses AS ENUM ('booked', 'rejected by hospital', 'rejected by doctor','canceled','fulfilled');

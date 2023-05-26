@@ -124,7 +124,7 @@ Future<List> getHospitals() async {
 //ok
 /*
   Get Medical record of any patient it O_O
-  Output : [200, [{Diagnosis: eat less potato, record_id: 5000000, appointment_id: 6000000, patient_id: 1000000, doctor_id: 2000000}]]
+  Output : [200, [{"diagnosis": "eat less potato","doctor_name": "tom tommy","diagnosis_time": "2023-05-15","hospital_name": "jerry's hospital"}]]
   Output[0] {ex: 200} is the status code (tip: check if status is 200 then it's ok otherwise alert the user)
   Output[1] is the medical record for any given patient 
   - You will find GetMedicalRecord example below in main funtion   

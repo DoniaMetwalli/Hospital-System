@@ -147,3 +147,6 @@ VALUES ('booked', '2023-05-15', 2, 6000000, 4000000, 3000000, 1000000, 2000000);
 
 INSERT INTO public.medical_record (doctor_diagnose, record_id, appointment_id, patient_id, doctor_id)
 VALUES ('eat less potato', 5000000, 6000000, 1000000, 2000000);
+
+
+SELECT m.doctor_diagnose, CONCAT(d.first_name,' ',d.last_name) AS doctor_name, a.time AS diagnosis_time, h.hospital_name FROM medical_record AS m,app_user AS d, appointment AS a, hospital AS h WHERE m.doctor_id = d.user_id AND a.appointment_id = m.appointment_id AND a.hospital_id = h.hospital_id AND m.patient_id = 1000000;

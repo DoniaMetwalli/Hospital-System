@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../backend/shared_variables.dart';
 
-// Output : [200, [{Diagnosis: eat less potato, record_id: 5000000, appointment_id: 6000000, patient_id: 1000000, doctor_id: 2000000}]]
+// [200, [{"diagnosis": "eat less potato","doctor_name": "tom tommy","diagnosis_time": "2023-05-15","hospital_name": "jerry's hospital"}]]
 
 Card medicalRecordCard(Map<String, dynamic> medicalRecord, BuildContext context) {
   return Card(
@@ -10,7 +10,7 @@ Card medicalRecordCard(Map<String, dynamic> medicalRecord, BuildContext context)
     child: ListTile(
       contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
       title: Text(
-        "Diagnosis: ${medicalRecord["Diagnosis"]}",
+        "Diagnosis: ${medicalRecord["diagnosis"]}\nBy Doctor: ${medicalRecord["doctor_name"]}",
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -22,15 +22,16 @@ Card medicalRecordCard(Map<String, dynamic> medicalRecord, BuildContext context)
 }
 
 Future<dynamic> medicalRecordAlert(Map<String, dynamic> medicalRecord, BuildContext context) {
-  final diagnosis = medicalRecord["Diagnosis"];
-  final doctor = medicalRecord["doctor_id"];
-  final appointment = medicalRecord["appointment_id"];
+  final diagnosis = medicalRecord["diagnosis"];
+  final doctor = medicalRecord["doctor_name"];
+  final diagnosisTime = medicalRecord["diagnosis_time"];
+  final hospitalName = medicalRecord["hospital_name"];
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-        "Diagnosis: $diagnosis\nDoctor: $doctor\nappointment: $appointment",
+        "Diagnosis: $diagnosis\nBy Doctor: $doctor\nDiagnosis Time: $diagnosisTime\nAt Hospita: $hospitalName",
       ),
       actions: [
         TextButton(
