@@ -1,25 +1,31 @@
-String filter = "";
+List<String> filter = [];
 
-List<List<String>> hospitalList = [
-  ["Hospital A", "Cairo - Nasr City"],
-  ["Hospital B", "Cairo - Nasr City"],
-  ["Hospital C", "Giza - 6 Octobor"],
-  ["Hospital D", "Giza - 6 Octobor"],
-];
-List<List<String>> hospitals = [];
+Map<String, List<String>> cities = {
+  "Cairo": ["Nasr City", "Abbassia "],
+  "Giza": ["6-October", "Faisal"]
+};
 
-int hospitalsCount(String filter) {
-  hospitals = [];
+List<dynamic> filteredHospitals = [];
+List<dynamic> hospitals = [];
+
+String selectedGovernorate = "Cairo";
+String selectedCity = cities["Cairo"]![0];
+
+int hospitalsCount(List<String> filter) {
   int count = 0;
   if (filter.isNotEmpty) {
-    for (var element in hospitalList) {
-      if (element[1] == filter) {
+    for (var element in hospitals) {
+      if (element["city"].toLowerCase() == filter[0].toLowerCase() &&
+          element["area"].toLowerCase() == filter[1].toLowerCase()) {
         count++;
-        hospitals.add(element);
+        filteredHospitals.add(element);
       }
     }
     return count;
   }
-  hospitals = hospitalList;
-  return hospitalList.length;
+
+  filteredHospitals = hospitals;
+  return hospitals.length;
 }
+
+

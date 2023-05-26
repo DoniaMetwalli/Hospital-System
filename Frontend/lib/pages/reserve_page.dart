@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:hemodialysis_csci305/backend/api_connection.dart';
-import 'package:hemodialysis_csci305/components/shared_components.dart';
-
 import '../backend/reservation.dart';
+import 'package:flutter/material.dart';
+import '../backend/api_connection.dart';
+import '../components/shared_components.dart';
 
 class ReservePage extends StatefulWidget {
   const ReservePage({super.key});
@@ -10,14 +9,6 @@ class ReservePage extends StatefulWidget {
   @override
   State<ReservePage> createState() => _ReservePageState();
 }
-
-String selectedState = "Cairo";
-String selectedCity = cities["Cairo"]![0];
-Map<String, List<String>> cities = {
-  "Cairo": ["Nasr City", "Abbassia "],
-  "Giza": ["6 Octobor", "Faisal"]
-};
-List<dynamic> hospitals = [];
 
 class _ReservePageState extends State<ReservePage> {
   bool loading = true;
@@ -52,96 +43,7 @@ class _ReservePageState extends State<ReservePage> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          scrollable: true,
-                          title: const Text('Location filter'),
-                          content: StatefulBuilder(
-                              builder: (BuildContext context, StateSetter setState) {
-                            return Column(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "State",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                DropdownButton<String>(
-                                  value: selectedState,
-                                  icon: const Icon(Icons.arrow_downward),
-                                  elevation: 16,
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 9, 111, 206),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                  underline: Container(
-                                    height: 2,
-                                    color: const Color.fromARGB(255, 106, 183, 255),
-                                  ),
-                                  items: const [
-                                    DropdownMenuItem(
-                                      value: "Cairo",
-                                      child: Text("Cairo"),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: "Giza",
-                                      child: Text("Giza"),
-                                    ),
-                                  ],
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedState = value!;
-                                      selectedCity = cities[selectedState]![0];
-                                    });
-                                  },
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "City",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                                DropdownButton<String>(
-                                  value: cities[selectedState]![0],
-                                  icon: const Icon(Icons.arrow_downward),
-                                  elevation: 16,
-                                  style: const TextStyle(
-                                      color: Color.fromARGB(255, 9, 111, 206),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                  underline: Container(
-                                    height: 2,
-                                    color: const Color.fromARGB(255, 106, 183, 255),
-                                  ),
-                                  items: cities[selectedState]!
-                                      .map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedCity = value!;
-                                    });
-                                  },
-                                )
-                              ],
-                            );
-                          }),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  filter = "$selectedState - $selectedCity";
-                                });
-                                Navigator.pop(context);
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
+                        builder: (BuildContext context) => locationAlert(context),
                       );
                     },
                   ),
@@ -149,13 +51,97 @@ class _ReservePageState extends State<ReservePage> {
               ],
             ),
             body: ListView.builder(
-              // [200, [{id: 3000000, name: jerry's hospital, address: Giza / 6October / 1st, phone_number: 01020304070, email: jerry@hospital.com, city: giza, area: 6-october}]]
-
-              itemCount: hospitals.length,
+              itemCount: hospitalsCount(filter),
               itemBuilder: (context, index) {
-                return hospitalCard(hospitals[index], context);
+                return hospitalCard(filteredHospitals[index], context);
               },
             ),
           );
+  }
+
+  Column locationDropDown<T>(
+      {required String title,
+      required List<T> menu,
+      required Function(T value) update,
+      required T defaultItem}) {
+    T selectedItem = defaultItem;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ),
+        DropdownButton<T>(
+          value: selectedItem,
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 16,
+          style: const TextStyle(
+              color: Color.fromARGB(255, 9, 111, 206), fontSize: 16, fontWeight: FontWeight.w500),
+          underline: Container(
+            height: 2,
+            color: const Color.fromARGB(255, 106, 183, 255),
+          ),
+          items: menu
+              .map(
+                (key) => DropdownMenuItem<T>(
+                  value: key,
+                  child: Text(
+                    key.toString(),
+                  ),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            selectedItem = value as T;
+            update(value);
+          },
+        ),
+      ],
+    );
+  }
+
+  AlertDialog locationAlert(BuildContext context) {
+    return AlertDialog(
+      scrollable: true,
+      title: const Text('Location filter'),
+      content: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+        return Column(
+          children: [
+            locationDropDown(
+              title: "Governorate",
+              menu: cities.keys.toList(),
+              defaultItem: selectedGovernorate,
+              update: (value) {
+                selectedGovernorate = value;
+                selectedCity = cities[selectedGovernorate]![0];
+                setState(() {});
+              },
+            ),
+            locationDropDown(
+              title: "City",
+              menu: cities[selectedGovernorate]!,
+              defaultItem: selectedCity,
+              update: (value) {
+                setState(() => selectedCity = value);
+              },
+            ),
+          ],
+        );
+      }),
+      actions: [
+        TextButton(
+          onPressed: () {
+            setState(() {
+              filter = [selectedGovernorate, selectedCity];
+            });
+            Navigator.pop(context);
+          },
+          child: const Text('Ok'),
+        ),
+      ],
+    );
   }
 }
