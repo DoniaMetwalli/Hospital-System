@@ -31,7 +31,7 @@ class _IntialPageState extends State<IntialPage> {
   @override
   Widget build(BuildContext context) {
     final box = Hive.box("user");
-    if (box.get("loged") && isPatient) {
+    if (box.get("loged") && box.get("isPatient")) {
       return Scaffold(
         body: patientPages[selectedPatientPage],
         bottomNavigationBar: NavigationBar(
@@ -48,7 +48,7 @@ class _IntialPageState extends State<IntialPage> {
           selectedIndex: selectedPatientPage,
         ),
       );
-    } else if (box.get("loged") && !isPatient) {
+    } else if (box.get("loged") && !box.get("isPatient")) {
       return Scaffold(
         body: doctorPages[selectedDoctorPage],
         bottomNavigationBar: NavigationBar(

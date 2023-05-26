@@ -152,7 +152,7 @@ class Appointment(BaseModel):
                 "doctor_id": 0,
                 "hospital_id": 0,
                 "status": "pending",
-                "time": "2021-01-01 00:00:00",
+                "time": "2021-01-01",
                 "slot": 0
             }
         }
@@ -267,7 +267,6 @@ async def GetHospitalList(Name: str = None, City: str = None, Area: str = None) 
 
 @app.get("/GetMedicalRecord")
 async def GetMedicalRecord(patient_id: int) -> list[MedicalRecordEntry]:
-    # query = "SELECT m.record_id, m.appointment_id, m.patient_id, m.doctor_id, m.doctor_diagnose FROM medical_record m WHERE m.patient_id = %s;"
     query = "SELECT m.doctor_diagnose, CONCAT(d.first_name,' ',d.last_name) AS doctor_name, a.time AS diagnosis_time, h.hospital_name FROM medical_record AS m,app_user AS d, appointment AS a, hospital AS h WHERE m.doctor_id = d.user_id AND a.appointment_id = m.appointment_id AND a.hospital_id = h.hospital_id AND m.patient_id = %s;"
     data = (patient_id,)
     conn = psycopg2.connect(**dbInfo)
@@ -306,9 +305,11 @@ async def GetAppointments(patient_id: int, status: str = "") -> list[AppendedApp
         raise HTTPException(
             status_code=400,  # bad request
         )
-    query = "SELECT a.appointment_id, a.dialysis_machine_id, a.patient_id, a.doctor_id, a.hospital_id, a.time, a.status, a.slot, h.hospital_name, h.address, h.phone_number, h.email, h.city, h.area, d.first_name, d.last_name, d.phone_number FROM appointment a, hospital h, app_user d WHERE a.patient_id = %s and a.hospital_id = h.hospital_id and a.doctor_id = d.user_id"
+
+    query = "SELECT a.appointment_id, a.dialysis_machine_id, a.patient_id, a.doctor_id, a.hospital_id, a.time, a.status, a.slot, h.hospital_name, h.address, h.phone_number, h.email, h.city, h.area, d.first_name, d.last_name, d.phone_number FROM appointment a, hospital h, app_user d WHERE a.hospital_id = h.hospital_id and a.doctor_id = d.user_id"
     if len(status) != 0:
         query += f" AND a.status = '{status}'"
+
     query += ";"
     data = (patient_id,)
     conn = psycopg2.connect(**dbInfo)
@@ -317,9 +318,37 @@ async def GetAppointments(patient_id: int, status: str = "") -> list[AppendedApp
     results = cnx.fetchall()
     appointments = []
     for result in results:
-        print(result)
         appointments.append(AppendedAppointment(appointment=Appointment(appointment_id=result[0], dialysis_machine_id=result[1], patient_id=result[2], doctor_id=result[3], hospital_id=result[4], time=str(result[5]), status=result[6], slot=result[7]), hospital=Hospital(
             id=result[4], name=result[8], address=result[9], phone_number=result[10], email=result[11], city=result[12], area=result[13]), doctorName=f"{result[14]} {result[15]}", doctorPhone=result[16]))
+    conn.close()
+    return appointments
+
+
+@app.get("/GetDoctorAppointments")
+async def GetAppointments(doctor_id: int, status: str = ""):
+    if len(status) != 0 and status not in appointment_status:
+        raise HTTPException(
+            status_code=400,  # bad request
+        )
+
+    query = f"SELECT a.appointment_id, a.doctor_id, a.patient_id, a.time, a.status, a.slot,concat(p.first_name,' ',p.last_name) as patient_name, pa.birthday, p.gender, p.phone_number FROM appointment a, app_user p ,patient pa WHERE p.user_id = a.patient_id  and a.patient_id = pa.patient_id and a.doctor_id = {doctor_id}"
+
+    if len(status) != 0:
+        query += f" AND a.status = '{status}'"
+
+    query += ";"
+    data = (doctor_id,)
+    conn = psycopg2.connect(**dbInfo)
+    cnx = conn.cursor()
+    cnx.execute(query, data)
+    results = cnx.fetchall()
+    appointments = []
+    for result in results:
+        print(result)
+        appointments.append({
+            "appointment_id": result[0], "doctor_id": result[1], "patient_id": result[2], "time": result[3], "status": result[4], "slot": result[5], "patient_name": result[6], "birthdate": result[7], "gender": result[8], "phone_number": result[9]
+        })
+
     conn.close()
     return appointments
 

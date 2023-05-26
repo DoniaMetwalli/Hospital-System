@@ -203,6 +203,33 @@ Future<List> getAppointments({
   }
 }
 
+/*{
+    "appointment_id": 6000000,
+    "doctor_id": 2000000,
+    "patient_id": 1000000,
+    "time": "2023-05-15",
+    "status": "canceled",
+    "patient_name": 0,
+    "birthdate": "potato tomato",
+    "gender": "2000-05-15"
+}*/
+Future<List> getDoctorAppointments({
+  required int doctorId,
+  String status = "",
+}) async {
+  Dio dio = Dio();
+  try {
+    final result = await dio.get(
+        '$apiLink/GetDoctorAppointments?doctor_id=$doctorId${status.isEmpty ? "" : "&status=$status"}');
+    return [result.statusCode, result.data];
+  } on DioError catch (e) {
+    if (e.response != null) {
+      return [e.response!.statusCode];
+    }
+    return [-1];
+  }
+}
+
 //ok
 /*
   Output : [200]

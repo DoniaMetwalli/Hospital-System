@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../backend/api_connection.dart';
 import '../backend/shared_variables.dart';
-import '../components/home_page/upcoming_appoinment_card.dart';
+import '../components/patient_home_page/upcoming_appoinment_card.dart';
 import '../components/shared_components.dart';
 
 class ReservationHistoryPage extends StatefulWidget {

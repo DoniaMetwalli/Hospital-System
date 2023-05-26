@@ -66,10 +66,11 @@ class _LoginPageState extends State<LoginPage> {
                           box.put("phone", result[1]["phone_number"]);
                           if (result[1]["birthdate"] != null) {
                             box.put("birthdate", result[1]["birthdate"]);
+                            box.put("isPatient", true);
                           } else {
                             box.put("hospitalId", result[1]["hospital_id"]);
                             box.put("availability", result[1]["availability"]);
-                            isPatient = false;
+                            box.put("isPatient", false);
                           }
                           widget.loged();
                         } else {

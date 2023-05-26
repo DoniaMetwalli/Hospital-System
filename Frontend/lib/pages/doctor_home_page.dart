@@ -3,7 +3,7 @@ import '../backend/api_connection.dart';
 import '../components/shared_components.dart';
 
 import '../backend/shared_variables.dart';
-import '../components/home_page/upcoming_appoinment_card.dart';
+import '../components/doctor_home_page/upcoming_appoinment_card.dart';
 
 class DoctorHomePage extends StatefulWidget {
   const DoctorHomePage({super.key});
@@ -17,10 +17,11 @@ List<dynamic> appointments = [];
 class _DoctorHomePageState extends State<DoctorHomePage> {
   bool loading = true;
   void backendCall() {
-    getAppointments(
-      patientId: box.get("userId"),
+    getDoctorAppointments(
+      doctorId: box.get("userId"),
     ).then(
       (value) {
+        print(value);
         if (value[0] == 200) {
           appointments = value[1];
           setState(
