@@ -3,33 +3,35 @@ import 'package:hemodialysis_csci305/backend/api_connection.dart';
 
 import '../../backend/shared_variables.dart';
 
-Card upcomingAppoinmentCard(Map<String, dynamic> appointmentsList, BuildContext context) {
+Card upcomingAppoinmentCard(
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
     child: ListTile(
-      contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
-      title: Text(
-        "Hospital Name: ${appointmentsList["hospital"]["name"]}",
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      subtitle: Text(
-          "Hospital Address: ${appointmentsList["hospital"]["address"]}\n Appointment Time: ${appointmentsList["appointment"]["time"]}",
+        contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
+        title: Text(
+          "Hospital Name: ${appointmentsList["hospital"]["name"]}",
           style: const TextStyle(
-            // fontSize: 8,
-            fontWeight: FontWeight.w400,
-          )),
-      isThreeLine: true,
-      onTap: () => upcomingAppoinmentAlert(appointmentsList, context),
-    ),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: Text(
+            "Hospital Address: ${appointmentsList["hospital"]["address"]}\n Appointment Time: ${appointmentsList["appointment"]["time"]}",
+            style: const TextStyle(
+              // fontSize: 8,
+              fontWeight: FontWeight.w400,
+            )),
+        isThreeLine: true,
+        onTap: () {
+          upcomingAppoinmentAlert(appointmentsList, context, update);
+        }),
   );
 }
 
 Future<dynamic> upcomingAppoinmentAlert(
-    Map<String, dynamic> appointmentsList, BuildContext context) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
   final hospital = appointmentsList["hospital"];
   final appointment = appointmentsList["appointment"];
   return showDialog(
@@ -41,7 +43,7 @@ Future<dynamic> upcomingAppoinmentAlert(
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
-          onPressed: () => confirmCancel(appointmentsList, context),
+          onPressed: () => confirmCancel(appointmentsList, context, update),
           child: const Text("Cancel Appointment"),
         ),
         TextButton(
@@ -52,8 +54,10 @@ Future<dynamic> upcomingAppoinmentAlert(
     ),
   );
 }
+// you did not understand what is a voidcallback?
 
-Future confirmCancel(Map<String, dynamic> appointmentsList, BuildContext context) {
+Future confirmCancel(
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
   final appointment = appointmentsList["appointment"];
   return showDialog(
     context: context,
@@ -75,6 +79,12 @@ Future confirmCancel(Map<String, dynamic> appointmentsList, BuildContext context
             );
             Navigator.pop(context);
             Navigator.pop(context);
+            // we will create this var in shared var so we can access it from home page
+            // here we cant access anything in home page
+            update();
+            // since this the only way now to comunicate with parent widget we may remove homeloading
+            // and update it in home page
+            // homeLoading = true;
           },
           child: const Text(
             "Confirm Cancellation",

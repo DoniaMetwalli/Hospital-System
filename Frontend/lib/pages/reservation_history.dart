@@ -49,7 +49,7 @@ class _ReservationHistoryPageState extends State<ReservationHistoryPage> {
               : ListView.builder(
                   itemCount: appointments.length,
                   itemBuilder: (context, index) {
-                    return upcomingAppoinmentCard(appointments[index], context);
+                    return upcomingAppoinmentCard(appointments[index], context, () {});
                   },
                 ),
     );

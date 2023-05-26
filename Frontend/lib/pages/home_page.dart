@@ -16,17 +16,26 @@ List<dynamic> appointments = [];
 
 class _HomePageState extends State<HomePage> {
   bool loading = true;
+  // we turn it to a function to re use it
+  // now we need to notify the home page that we changed the loading var and call backend function
+  void backendCall() {
+    getAppointments(patientId: box.get("userId"), status: "booked").then(
+      (value) {
+        if (value[0] == 200) {
+          appointments = value[1];
+          setState(
+            () {
+              loading = false;
+            },
+          );
+        }
+      },
+    );
+  }
 
   @override
   void initState() {
-    getAppointments(patientId: box.get("userId"), status: "booked").then((value) {
-      if (value[0] == 200) {
-        appointments = value[1];
-        setState(() {
-          loading = false;
-        });
-      }
-    });
+    backendCall();
     super.initState();
   }
 
@@ -49,7 +58,17 @@ class _HomePageState extends State<HomePage> {
               : ListView.builder(
                   itemCount: appointments.length,
                   itemBuilder: (context, index) {
-                    return upcomingAppoinmentCard(appointments[index], context);
+                    // we will create our function here
+                    return upcomingAppoinmentCard(
+                      appointments[index],
+                      context,
+                      () {
+                        setState(() {
+                          loading = true;
+                          backendCall();
+                        });
+                      },
+                    );
                   },
                 ),
     );
