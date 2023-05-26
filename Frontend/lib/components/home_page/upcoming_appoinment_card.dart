@@ -4,7 +4,7 @@ import 'package:hemodialysis_csci305/backend/api_connection.dart';
 import '../../backend/shared_variables.dart';
 
 Card upcomingAppoinmentCard(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
@@ -25,13 +25,13 @@ Card upcomingAppoinmentCard(
             )),
         isThreeLine: true,
         onTap: () {
-          upcomingAppoinmentAlert(appointmentsList, context, update);
+          upcomingAppoinmentAlert(appointmentsList, context, picoWillBeKidnapped);
         }),
   );
 }
 
 Future<dynamic> upcomingAppoinmentAlert(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
   final hospital = appointmentsList["hospital"];
   final appointment = appointmentsList["appointment"];
   return showDialog(
@@ -43,7 +43,7 @@ Future<dynamic> upcomingAppoinmentAlert(
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
-          onPressed: () => confirmCancel(appointmentsList, context, update),
+          onPressed: () => confirmCancel(appointmentsList, context, picoWillBeKidnapped),
           child: const Text("Cancel Appointment"),
         ),
         TextButton(
@@ -57,7 +57,7 @@ Future<dynamic> upcomingAppoinmentAlert(
 // you did not understand what is a voidcallback?
 
 Future confirmCancel(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
   final appointment = appointmentsList["appointment"];
   return showDialog(
     context: context,
@@ -81,7 +81,20 @@ Future confirmCancel(
             Navigator.pop(context);
             // we will create this var in shared var so we can access it from home page
             // here we cant access anything in home page
-            update();
+            picoWillBeKidnapped();
+            // potato?? built in?
+            // as i said you are not a subtype of type potato XD
+
+            /*let me explatin
+              
+            
+            
+            
+             */
+
+            // it is just a function we created to comunicate with home page
+            // if you dont like its name let's rename it to potato
+            // nooo potato, 3ndy trauma
             // since this the only way now to comunicate with parent widget we may remove homeloading
             // and update it in home page
             // homeLoading = true;
