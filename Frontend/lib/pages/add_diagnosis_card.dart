@@ -38,7 +38,7 @@ Future<dynamic> addDiagnosisAlert(
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-          "Patient Name: ${docAppointment["patient_name"]}\nPatient ID: ${docAppointment["patient_id"]}\nAppointment ID: ${docAppointment["appointment_id"]}\nAppointment Time: ${docAppointment["time"]}\nPatient Birthday: ${docAppointment["birthdate"]}\nPatient Phone: ${docAppointment["phone_number"]}\n${docAppointment["status"]}",
+          "Patient Name: ${docAppointment["patient_name"]}\nPatient ID: ${docAppointment["patient_id"]}\nAppointment ID: ${docAppointment["appointment_id"]}\nAppointment Time: ${docAppointment["time"]}\nPatient Birthday: ${docAppointment["birthdate"]}\nPatient Phone: ${docAppointment["phone_number"]}",
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
@@ -54,7 +54,7 @@ Future<dynamic> addDiagnosisAlert(
   );
 }
 
-Future<dynamic> addDiagnosis(docAppointment, context, update) {
+Future<dynamic> addDiagnosis(docAppointment, context, VoidCallback update) {
   TextEditingController diagnosisController = TextEditingController();
   return showDialog(
     context: context,
@@ -75,16 +75,18 @@ Future<dynamic> addDiagnosis(docAppointment, context, update) {
                       patientId: docAppointment["patient_id"])
                   .then((value) {
                 if (value[0] == 200) {
-                  changeAppointment(appointmentId: docAppointment["appointment_id"], patientId: docAppointment["patient_id"], dialysisMachineId: dialysisMachineId, doctorId: docAppointment["doctor_id"], hospitalId: hospitalId, status: docAppointment["status"], time: docAppointment["time"], slot: docAppointment["slot"]);
+                  changeAppointment(appointmentId: docAppointment["appointment_id"], patientId: docAppointment["patient_id"], dialysisMachineId: docAppointment["dialysis_machine_id"], doctorId: docAppointment["doctor_id"], hospitalId: docAppointment["hospital_id"], status: "fulfilled", time: docAppointment["time"], slot: docAppointment["slot"]);
                   snackBar("Added :)", context);
                 } else {
                   snackBar("Error :( ${value[0]}", context);
                 }
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
+                
               });
-              
+
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                update();
             },
             child: const Text("Done"))
       ],
