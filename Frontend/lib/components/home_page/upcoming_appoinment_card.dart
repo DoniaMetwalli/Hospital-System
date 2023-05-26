@@ -4,7 +4,7 @@ import 'package:hemodialysis_csci305/backend/api_connection.dart';
 import '../../backend/shared_variables.dart';
 
 Card upcomingAppoinmentCard(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
@@ -25,7 +25,7 @@ Card upcomingAppoinmentCard(
             )),
         isThreeLine: true,
         onTap: () {
-          upcomingAppoinmentAlert(appointmentsList, context, picoWillBeKidnapped);
+          upcomingAppoinmentAlert(appointmentsList, context, update);
         }),
   );
 }
