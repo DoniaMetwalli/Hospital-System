@@ -4,7 +4,7 @@ import 'package:hemodialysis_csci305/backend/api_connection.dart';
 import '../../backend/shared_variables.dart';
 
 Card upcomingAppoinmentCard(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
@@ -25,7 +25,7 @@ Card upcomingAppoinmentCard(
             )),
         isThreeLine: true,
         onTap: () {
-          upcomingAppoinmentAlert(appointmentsList, context, picoWillBeKidnapped);
+          upcomingAppoinmentAlert(appointmentsList, context, update);
         }),
   );
 }
@@ -57,7 +57,7 @@ Future<dynamic> upcomingAppoinmentAlert(
 // you did not understand what is a voidcallback?
 
 Future confirmCancel(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
   final appointment = appointmentsList["appointment"];
   return showDialog(
     context: context,
@@ -81,7 +81,7 @@ Future confirmCancel(
             Navigator.pop(context);
             // we will create this var in shared var so we can access it from home page
             // here we cant access anything in home page
-            picoWillBeKidnapped();
+            update();
             // potato?? built in?
             // as i said you are not a subtype of type potato XD
 
