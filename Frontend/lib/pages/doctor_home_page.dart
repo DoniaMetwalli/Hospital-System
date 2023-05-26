@@ -16,6 +16,7 @@ List<dynamic> appointments = [];
 
 class _DoctorHomePageState extends State<DoctorHomePage> {
   bool loading = true;
+  
   void backendCall() {
     getAppointments(
       patientId: box.get("userId"),

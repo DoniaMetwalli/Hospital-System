@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/pages/diagnose_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../backend/shared_variables.dart';
 import 'doctor_home_page.dart';
@@ -24,6 +25,7 @@ List<Widget> patientPages = const [
 int selectedDoctorPage = 0;
 List<Widget> doctorPages = const [
   DoctorHomePage(),
+  DiagnosisPage(),
   Settings(),
 ];
 
@@ -54,6 +56,7 @@ class _IntialPageState extends State<IntialPage> {
         bottomNavigationBar: NavigationBar(
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home, color: iconColor), label: "Home"),
+            NavigationDestination(icon: Icon(Icons.schedule, color: iconColor), label: "Diagnosis"),
             NavigationDestination(icon: Icon(Icons.settings, color: iconColor), label: "Settings"),
           ],
           onDestinationSelected: (index) {
