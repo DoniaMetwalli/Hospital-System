@@ -37,10 +37,32 @@ Future<dynamic> upcomingAppoinmentAlert(
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-          "Hospital Name: ${hospital["name"]}\nHospital Address: ${hospital["address"]}\nAppointment Time: ${appointment["time"]}\nDoctor's Name: ${appointmentsList["doctorName"]}\nHospital Phone: ${hospital["phone_number"]},\nDoctor's Phone: ${appointmentsList["doctorPhone"]},\nHospital E-mail: ${hospital["email"]}"),
+          "Hospital Name: ${hospital["name"]}\nHospital Address: ${hospital["address"]}\nAppointment Time: ${appointment["time"]}\nDoctor's Name: ${appointmentsList["doctorName"]},\nDoctor's Phone: ${appointmentsList["doctorPhone"]},\nHospital Phone: ${hospital["phone_number"]},\nHospital E-mail: ${hospital["email"]},\nStatus: ${appointment["status"]}", style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
-          onPressed: () => changeAppointment(
+          onPressed: () => confirmCancel(appointmentsList, context),
+          child: const Text("Cancel Appointment"),
+        ),
+        TextButton(
+          onPressed: () => close(context),
+          child: const Text("Okay"),
+        ),
+      ],
+    ),
+  );
+}
+
+Future confirmCancel(Map<String, dynamic> appointmentsList, BuildContext context) {
+  final appointment = appointmentsList["appointment"];
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Confirm"),
+      content: const Text("Please click the button to confirm your cancellation"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            changeAppointment(
             appointmentId: appointment["appointment_id"],
             patientId: box.get("userId"),
             dialysisMachineId: appointment["dialysis_machine_id"],
@@ -49,13 +71,13 @@ Future<dynamic> upcomingAppoinmentAlert(
             status: "canceled",
             time: appointment["time"],
             slot: 0,
+          );
+            Navigator.pop(context);
+          },
+          child: const Text(
+            "Confirm Cancellation",
           ),
-          child: const Text("Cancel Appointment"),
-        ),
-        TextButton(
-          onPressed: () => close(context),
-          child: const Text("Okay"),
-        ),
+        )
       ],
     ),
   );
