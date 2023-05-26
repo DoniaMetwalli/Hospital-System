@@ -22,7 +22,6 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
       doctorId: box.get("userId"),
     ).then(
       (value) {
-        print(value);
         if (value[0] == 200) {
           appointments = value[1];
           setState(

@@ -32,7 +32,7 @@ Card upcomingAppoinmentCard(
 
 //needdddddd edits
 Future<dynamic> upcomingAppoinmentAlert(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
+    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
   final hospital = appointmentsList["hospital"];
   final appointment = appointmentsList["appointment"];
   return showDialog(
@@ -44,7 +44,7 @@ Future<dynamic> upcomingAppoinmentAlert(
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
-          onPressed: () => confirmCancel(appointmentsList, context, picoWillBeKidnapped),
+          onPressed: () => confirmCancel(appointmentsList, context, update),
           child: const Text("Cancel Appointment"),
         ),
         TextButton(

@@ -1,4 +1,5 @@
-
+import '../components/patient_home_page/upcoming_appoinment_card.dart';
+import '../backend/reservation.dart';
 import 'package:flutter/material.dart';
 import '../backend/api_connection.dart';
 import '../backend/shared_variables.dart';
@@ -18,7 +19,7 @@ class DiagnosisPageState extends State<DiagnosisPage> {
   bool loading = true;
 
   void backendCall() {
-    getAppointments(patientId: box.get("userId"), status: "booked").then(
+    getDoctorAppointments(doctorId: box.get("userId"), status: "booked").then(
       (value) {
         if (value[0] == 200) {
           docAppointments = value[1];
@@ -54,21 +55,19 @@ class DiagnosisPageState extends State<DiagnosisPage> {
                     textAlign: TextAlign.center,
                   ),
                 )
-              : ListView.builder(
-                  itemCount: docAppointments.length,
-                  itemBuilder: (context, index) {
-                    return addDiagnosis(
-                      docAppointments[index],
-                      context,
-                      () {
-                        setState(() {
-                          loading = true;
-                          backendCall();
-                        });
-                      },
-                    );
-                  },
-                ),
+                : 
+              ListView.builder(itemCount: docAppointments.length, 
+                              itemBuilder: (context, index) {
+                                return addDiagnosisCard(
+                                  docAppointments[index], 
+                                  context, 
+                                  () { setState(() {
+                                    loading = true;
+                                    backendCall(); });
+                                    },
+                                    );
+                                    },
+              )
     );
   }
 }

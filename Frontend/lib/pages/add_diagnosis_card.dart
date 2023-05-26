@@ -3,7 +3,7 @@ import 'package:hemodialysis_csci305/backend/api_connection.dart';
 
 import '../../backend/shared_variables.dart';
 
-Card addDiagnosis(
+Card addDiagnosisCard(
     Map<String, dynamic> docAppointment, BuildContext context, VoidCallback update) {
   return Card(
     color: cardColor,
@@ -25,24 +25,24 @@ Card addDiagnosis(
             )),
         isThreeLine: true,
         onTap: () {
-          upcomingAppoinmentAlert(docAppointment, context, update);
+          addDiagnosisAlert(docAppointment, context, update);
         }),
   );
 }
 
-Future<dynamic> upcomingAppoinmentAlert(
+Future<dynamic> addDiagnosisAlert(
     Map<String, dynamic> docAppointment, BuildContext context, VoidCallback update) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-          "Appointment Time: ${docAppointment["time"]}\nPatient Birthday: ${docAppointment["birthday"]}\nPatient Phone: ${docAppointment["phone_number"]}",
+          "Patient Name: ${docAppointment["patient_name"]}\nPatient ID: ${docAppointment["patient_id"]}\nAppointment ID: ${docAppointment["appointment_id"]}\nAppointment Time: ${docAppointment["time"]}\nPatient Birthday: ${docAppointment["birthdate"]}\nPatient Phone: ${docAppointment["phone_number"]}",
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
-          onPressed: () => confirmCancel(docAppointment, context, update),
-          child: const Text("Cancel Appointment"),
+          onPressed: () => {addDiagnosis(docAppointment, context, update)},
+          child: const Text("Add Diagnosis"),
         ),
         TextButton(
           onPressed: () => close(context),
@@ -53,46 +53,23 @@ Future<dynamic> upcomingAppoinmentAlert(
   );
 }
 
-Future confirmCancel(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
-  final appointment = appointmentsList["appointment"];
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text("Confirm"),
-      content: const Text("Please click the button to confirm your cancellation"),
-      actions: [
-        TextButton(
-          onPressed: () {
-            changeAppointment(
-              appointmentId: appointment["appointment_id"],
-              patientId: box.get("userId"),
-              dialysisMachineId: appointment["dialysis_machine_id"],
-              doctorId: appointment["doctor_id"],
-              hospitalId: appointment["hospital_id"],
-              status: "canceled",
-              time: appointment["time"],
-              slot: 0,
-            );
-            Navigator.pop(context);
-            Navigator.pop(context);
-            picoWillBeKidnapped();
-          },
-          child: const Text(
-            "Confirm Cancellation",
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text(
-            "Abort",
-          ),
-        )
-      ],
+Future<dynamic> addDiagnosis(docAppointment, context, update)
+{
+  TextEditingController diagnosisController = TextEditingController();
+  return showDialog(context: context,
+   builder: (context) => AlertDialog(
+    title: const Text("Add Your Diagnosis"),
+    content: TextField(
+      controller: diagnosisController,
     ),
-  );
+    actions: [
+      TextButton(onPressed: () {
+        String docDiagnosis = diagnosisController.text;
+        appendMedicalRecord(appointmentId: docAppointment["appointment_id"], diagnosis: docDiagnosis, doctorId: box.get("userId"), patientId: docAppointment["patient_id"]);}, 
+      child: const Text("Done"))
+    ],
+     ),
+   );
 }
 
 void close(BuildContext context) {
