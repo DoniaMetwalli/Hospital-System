@@ -306,8 +306,6 @@ async def GetAppointments(patient_id: int, status: str = "") -> list[AppendedApp
         raise HTTPException(
             status_code=400,  # bad request
         )
-
-    # CREATE TYPE appointment_statuses AS ENUM ('booked', 'rejected by hospital', 'rejected by doctor','canceled','fulfilled');
     query = "SELECT a.appointment_id, a.dialysis_machine_id, a.patient_id, a.doctor_id, a.hospital_id, a.time, a.status, a.slot, h.hospital_name, h.address, h.phone_number, h.email, h.city, h.area, d.first_name, d.last_name, d.phone_number FROM appointment a, hospital h, app_user d WHERE a.patient_id = %s and a.hospital_id = h.hospital_id and a.doctor_id = d.user_id"
     if len(status) != 0:
         query += f" AND a.status = '{status}'"

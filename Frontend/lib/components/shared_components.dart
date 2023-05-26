@@ -107,7 +107,15 @@ Future confirmReserve(BuildContext context) {
 }
 
 void logout(BuildContext context) {
-  box.put("loged", false);
+  for (var key in stringKeys) {
+    box.put(key, "");
+  }
+  for (var key in boolKeys) {
+    box.put(key, false);
+  }
+  for (var key in intKeys) {
+    box.put(key, 0);
+  }
   Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const IntialPage(),

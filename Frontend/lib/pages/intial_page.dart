@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../backend/shared_variables.dart';
-import '../pages/home_page.dart';
+import 'doctor_home_page.dart';
+import 'patient_home_page.dart';
 import '../pages/login_page.dart';
 import '../pages/reserve_page.dart';
 import 'settings_page.dart';
@@ -13,11 +14,16 @@ class IntialPage extends StatefulWidget {
   State<IntialPage> createState() => _IntialPageState();
 }
 
-int selectedPage = 0;
-
-List<Widget> pages = const [
-  HomePage(),
+int selectedPatientPage = 0;
+List<Widget> patientPages = const [
+  PatientHomePage(),
   ReservePage(),
+  Settings(),
+];
+
+int selectedDoctorPage = 0;
+List<Widget> doctorPages = const [
+  DoctorHomePage(),
   Settings(),
 ];
 
@@ -25,9 +31,9 @@ class _IntialPageState extends State<IntialPage> {
   @override
   Widget build(BuildContext context) {
     final box = Hive.box("user");
-    if (box.get("loged")) {
+    if (box.get("loged") && isPatient) {
       return Scaffold(
-        body: pages[selectedPage],
+        body: patientPages[selectedPatientPage],
         bottomNavigationBar: NavigationBar(
           destinations: const [
             NavigationDestination(icon: Icon(Icons.home, color: iconColor), label: "Home"),
@@ -36,10 +42,26 @@ class _IntialPageState extends State<IntialPage> {
           ],
           onDestinationSelected: (index) {
             setState(() {
-              selectedPage = index;
+              selectedPatientPage = index;
             });
           },
-          selectedIndex: selectedPage,
+          selectedIndex: selectedPatientPage,
+        ),
+      );
+    } else if (box.get("loged") && !isPatient) {
+      return Scaffold(
+        body: doctorPages[selectedDoctorPage],
+        bottomNavigationBar: NavigationBar(
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home, color: iconColor), label: "Home"),
+            NavigationDestination(icon: Icon(Icons.settings, color: iconColor), label: "Settings"),
+          ],
+          onDestinationSelected: (index) {
+            setState(() {
+              selectedDoctorPage = index;
+            });
+          },
+          selectedIndex: selectedDoctorPage,
         ),
       );
     }

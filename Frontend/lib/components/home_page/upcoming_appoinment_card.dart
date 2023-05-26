@@ -18,7 +18,7 @@ Card upcomingAppoinmentCard(
           ),
         ),
         subtitle: Text(
-            "Hospital Address: ${appointmentsList["hospital"]["address"]}\n Appointment Time: ${appointmentsList["appointment"]["time"]}",
+            "Hospital Address: ${appointmentsList["hospital"]["address"]}\nAppointment Time: ${appointmentsList["appointment"]["time"]}",
             style: const TextStyle(
               // fontSize: 8,
               fontWeight: FontWeight.w400,
@@ -54,7 +54,6 @@ Future<dynamic> upcomingAppoinmentAlert(
     ),
   );
 }
-// you did not understand what is a voidcallback?
 
 Future confirmCancel(
     Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
@@ -79,25 +78,7 @@ Future confirmCancel(
             );
             Navigator.pop(context);
             Navigator.pop(context);
-            // we will create this var in shared var so we can access it from home page
-            // here we cant access anything in home page
             picoWillBeKidnapped();
-            // potato?? built in?
-            // as i said you are not a subtype of type potato XD
-
-            /*let me explatin
-              
-            
-            
-            
-             */
-
-            // it is just a function we created to comunicate with home page
-            // if you dont like its name let's rename it to potato
-            // nooo potato, 3ndy trauma
-            // since this the only way now to comunicate with parent widget we may remove homeloading
-            // and update it in home page
-            // homeLoading = true;
           },
           child: const Text(
             "Confirm Cancellation",

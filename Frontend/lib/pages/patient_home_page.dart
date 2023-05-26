@@ -5,16 +5,16 @@ import '../components/shared_components.dart';
 import '../backend/shared_variables.dart';
 import '../components/home_page/upcoming_appoinment_card.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class PatientHomePage extends StatefulWidget {
+  const PatientHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<PatientHomePage> createState() => _PatientHomePageState();
 }
 
 List<dynamic> appointments = [];
 
-class _HomePageState extends State<HomePage> {
+class _PatientHomePageState extends State<PatientHomePage> {
   bool loading = true;
   // we turn it to a function to re use it
   // now we need to notify the home page that we changed the loading var and call backend function

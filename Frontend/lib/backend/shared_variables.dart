@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 final box = Hive.box("user");
+bool isPatient = true;
 
 const iconColor = Color.fromARGB(255, 101, 172, 137);
 const backgroundColor = Color.fromARGB(255, 218, 233, 218);
@@ -20,10 +21,13 @@ List<String> stringKeys = [
   "gender",
   "phone",
   "birthdate",
+  "hospitalId",
 ];
 List<String> intKeys = [
   "userId",
 ];
 List<String> boolKeys = [
   "loged",
+  "availability",
 ];
+
