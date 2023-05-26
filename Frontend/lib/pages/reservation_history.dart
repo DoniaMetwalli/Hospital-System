@@ -19,10 +19,8 @@ bool loading = true;
 class _ReservationHistoryPageState extends State<ReservationHistoryPage> {
   @override
   void initState() {
-    // does not work with isFullFilled true saaaaaaaaad
     getAppointments(patientId: box.get("userId")).then((value) {
       if (value[0] == 200) {
-        print(value);
         appointments = value[1];
         setState(() {
           loading = false;

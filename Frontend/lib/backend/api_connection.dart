@@ -188,7 +188,6 @@ Future<List> makeAppointment({
 */
 Future<List> getAppointments({
   required int patientId,
-
   String status = "",
 }) async {
   Dio dio = Dio();
@@ -523,6 +522,4 @@ void main(List<String> args) async {
   //       phoneNumber: "01020304070",
   //       username: "TheGreatestDetective"),
   // );
-  final person = {"fname": "donia"};
-  print(person["age"]);
 }
