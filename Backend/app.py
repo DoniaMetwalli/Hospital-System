@@ -306,7 +306,7 @@ async def GetAppointments(patient_id: int, status: str = "") -> list[AppendedApp
     if len(status) != 0 and status not in appointment_status:
         raise HTTPException(
             status_code=400,  # bad request
-            detail="fuck you"
+            detail="Error 400"
         )
 
     # CREATE TYPE appointment_statuses AS ENUM ('booked', 'rejected by hospital', 'rejected by doctor','canceled','fulfilled');
