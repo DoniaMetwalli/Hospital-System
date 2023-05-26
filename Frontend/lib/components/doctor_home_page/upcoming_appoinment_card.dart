@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hemodialysis_csci305/backend/api_connection.dart';
+import 'package:hemodialysis_csci305/components/shared_components.dart';
 
 import '../../backend/shared_variables.dart';
 
 Card upcomingAppoinmentCard(
     Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
+  print(appointmentsList);
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
@@ -18,7 +20,7 @@ Card upcomingAppoinmentCard(
           ),
         ),
         subtitle: Text(
-            "Gender: ${appointmentsList["gender"]}\nAppointment Time: ${appointmentsList["time"]}",
+            "Gender: ${appointmentsList["gender"] == 'm' ? "male" : "female"}\nAppointment Time: ${appointmentsList["time"]}",
             style: const TextStyle(
               // fontSize: 8,
               fontWeight: FontWeight.w400,
@@ -30,17 +32,19 @@ Card upcomingAppoinmentCard(
   );
 }
 
-//needdddddd edits
 Future<dynamic> upcomingAppoinmentAlert(
     Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
-  final hospital = appointmentsList["hospital"];
-  final appointment = appointmentsList["appointment"];
+  final birthdateList = appointmentsList["birthdate"].split('-');
+  final birthdate = DateTime(
+      int.parse(birthdateList[0]), int.parse(birthdateList[1]), int.parse(birthdateList[2]));
+  final age = DateTime.now().difference(birthdate).inDays ~/ 365;
+
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-          "Hospital Name: ${hospital["name"]}\nHospital Address: ${hospital["address"]}\nAppointment Time: ${appointment["time"]}\nDoctor's Name: ${appointmentsList["doctorName"]},\nDoctor's Phone: ${appointmentsList["doctorPhone"]},\nHospital Phone: ${hospital["phone_number"]},\nHospital E-mail: ${hospital["email"]},\nStatus: ${appointment["status"]}",
+          "Patient: ${appointmentsList["patient_name"]}\nGender: ${appointmentsList["gender"] == 'm' ? "male" : "female"}\nAge: $age\nPhone: ${appointmentsList["phone_number"]}",
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
@@ -58,7 +62,6 @@ Future<dynamic> upcomingAppoinmentAlert(
 
 Future confirmCancel(
     Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
-  final appointment = appointmentsList["appointment"];
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -67,19 +70,27 @@ Future confirmCancel(
       actions: [
         TextButton(
           onPressed: () {
+            loadingIndecatorContext(context);
             changeAppointment(
-              appointmentId: appointment["appointment_id"],
-              patientId: box.get("userId"),
-              dialysisMachineId: appointment["dialysis_machine_id"],
-              doctorId: appointment["doctor_id"],
-              hospitalId: appointment["hospital_id"],
-              status: "canceled",
-              time: appointment["time"],
-              slot: 0,
-            );
-            Navigator.pop(context);
-            Navigator.pop(context);
-            picoWillBeKidnapped();
+              appointmentId: appointmentsList["appointment_id"],
+              patientId: appointmentsList["patient_id"],
+              dialysisMachineId: appointmentsList["dialysis_machine_id"],
+              doctorId: appointmentsList["doctor_id"],
+              hospitalId: appointmentsList["hospital_id"],
+              status: "rejected by doctor",
+              time: appointmentsList["time"],
+              slot: appointmentsList["slot"],
+            ).then((value) {
+              if (value[0] == 200) {
+                snackBar("Done :)", context);
+              } else {
+                snackBar("Error :( ${value[0]}", context);
+              }
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
+              picoWillBeKidnapped();
+            });
           },
           child: const Text(
             "Confirm Cancellation",
