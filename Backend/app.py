@@ -350,7 +350,7 @@ async def GetAppointments(doctor_id: int, status: str = ""):
             status_code=400,  # bad request
         )
 
-    query = f"SELECT a.appointment_id, a.doctor_id, a.patient_id, a.time, a.status, a.slot,concat(p.first_name,' ',p.last_name) as patient_name, pa.birthday, p.gender, p.phone_number FROM appointment a, app_user p ,patient pa WHERE p.user_id = a.patient_id  and a.patient_id = pa.patient_id and a.doctor_id = {doctor_id}"
+    query = f"SELECT a.appointment_id, a.doctor_id, a.patient_id, a.time, a.status, a.slot,concat(p.first_name,' ',p.last_name) as patient_name, pa.birthday, p.gender, p.phone_number ,a.dialysis_machine_id,a.hospital_id  FROM appointment a, app_user p ,patient pa WHERE p.user_id = a.patient_id  and a.patient_id = pa.patient_id and a.doctor_id = {doctor_id}"
 
     if len(status) != 0:
         query += f" AND a.status = '{status}'"
@@ -365,7 +365,7 @@ async def GetAppointments(doctor_id: int, status: str = ""):
     for result in results:
         print(result)
         appointments.append({
-            "appointment_id": result[0], "doctor_id": result[1], "patient_id": result[2], "time": result[3], "status": result[4], "slot": result[5], "patient_name": result[6], "birthdate": result[7], "gender": result[8], "phone_number": result[9]
+            "appointment_id": result[0], "doctor_id": result[1], "patient_id": result[2],  "hospital_id": result[11], "dialysis_machine_id": result[10], "time": result[3], "status": result[4], "slot": result[5], "patient_name": result[6], "birthdate": result[7], "gender": result[8], "phone_number": result[9]
         })
 
     conn.close()

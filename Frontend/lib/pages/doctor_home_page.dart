@@ -16,9 +16,10 @@ List<dynamic> appointments = [];
 
 class _DoctorHomePageState extends State<DoctorHomePage> {
   bool loading = true;
-  
+
   void backendCall() {
     getDoctorAppointments(
+      status: "booked",
       doctorId: box.get("userId"),
     ).then(
       (value) {
@@ -44,7 +45,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upcoming D Appointments"),
+        title: const Text("Upcoming Appointments"),
       ),
       body: loading
           ? loadingIndecator()
@@ -59,7 +60,6 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
               : ListView.builder(
                   itemCount: appointments.length,
                   itemBuilder: (context, index) {
-                    // we will create our function here
                     return upcomingAppoinmentCard(
                       appointments[index],
                       context,
