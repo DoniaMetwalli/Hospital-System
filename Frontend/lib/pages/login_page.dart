@@ -57,7 +57,6 @@ class _LoginPageState extends State<LoginPage> {
                         final result = await login(username: user.text, password: password.text);
                         if (result[0] == 200) {
                           box.put("loged", true);
-                          print(result[1]);
                           box.put("userId", result[1]["user_id"]);
                           box.put("firstName", result[1]["firstName"]);
                           box.put("lastName", result[1]["lastName"]);

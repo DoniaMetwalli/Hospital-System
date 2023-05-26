@@ -34,77 +34,7 @@ dynamic loadingIndecator() {
   return const Center(child: CircularProgressIndicator());
 }
 
-dynamic hospitalCard(Map<String, dynamic> hospitalsList, BuildContext context) {
-  return Card(
-    margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
-    color: cardColor,
-    child: Theme(
-      data: ThemeData().copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-        tilePadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
-        collapsedShape: null,
-        initiallyExpanded: false,
-        childrenPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
-        iconColor: Colors.black,
-        textColor: Colors.black,
-        title: Text(
-          hospitalsList["name"],
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
-        ),
-        subtitle: Text(
-          hospitalsList["address"],
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
-        ),
-        children: [
-          Text(
-            hospitalsList["phone_number"],
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-          ),
-          Text(
-            hospitalsList["email"],
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-          ),
-          TextButton(
-            onPressed: () {
-              confirmReserve(context);
-            },
-            child: const Text(
-              "Reserve",
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
-}
 
-Future confirmReserve(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text("Confirm"),
-      content: const Text("Please click the button to confirm your reservation"),
-      actions: [
-        TextButton(
-          onPressed: () {
-            // WE SHOULD GO TO OTHER PAGE AND SELECT OUR DOCTOR AND MACHINE
-            // WHAT ASKED YOU TO DO WAS IN HOME PAGE NOT RESERVATION PAGE
-            // makeAppointment(patientId: patientId, dialysisMachineId: dialysisMachineId, doctorId: doctorId, hospitalId: hospitalId, time: time, slot: slot)
-            Navigator.pop(context);
-          },
-          child: const Text(
-            "Confirm",
-            // no need for change let the green color
-            // style: TextStyle(color: Colors.black),
-          ),
-        )
-      ],
-    ),
-  );
-}
 
 void logout(BuildContext context) {
   for (var key in stringKeys) {

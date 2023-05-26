@@ -1,6 +1,7 @@
 import '../backend/reservation.dart';
 import 'package:flutter/material.dart';
 import '../backend/api_connection.dart';
+import '../components/reserve/hospital_card.dart';
 import '../components/shared_components.dart';
 
 class ReservePage extends StatefulWidget {
@@ -30,12 +31,12 @@ class _ReservePageState extends State<ReservePage> {
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? loadingIndecator()
-        : Scaffold(
-            appBar: AppBar(
-              title: const Text("Reserve Page"),
-              actions: [
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Reserve Page"),
+        actions: loading
+            ? []
+            : [
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
                   child: IconButton(
@@ -49,14 +50,16 @@ class _ReservePageState extends State<ReservePage> {
                   ),
                 )
               ],
-            ),
-            body: ListView.builder(
+      ),
+      body: loading
+          ? loadingIndecator()
+          : ListView.builder(
               itemCount: hospitalsCount(filter),
               itemBuilder: (context, index) {
                 return hospitalCard(filteredHospitals[index], context);
               },
             ),
-          );
+    );
   }
 
   Column locationDropDown<T>(
