@@ -38,7 +38,7 @@ Future<dynamic> addDiagnosisAlert(
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-          "Patient Name: ${docAppointment["patient_name"]}\nPatient ID: ${docAppointment["patient_id"]}\nAppointment ID: ${docAppointment["appointment_id"]}\nAppointment Time: ${docAppointment["time"]}\nPatient Birthday: ${docAppointment["birthdate"]}\nPatient Phone: ${docAppointment["phone_number"]}",
+          "Patient Name: ${docAppointment["patient_name"]}\nPatient ID: ${docAppointment["patient_id"]}\nAppointment ID: ${docAppointment["appointment_id"]}\nAppointment Time: ${docAppointment["time"]}\nPatient Birthday: ${docAppointment["birthdate"]}\nPatient Phone: ${docAppointment["phone_number"]}\n${docAppointment["status"]}",
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
@@ -75,6 +75,7 @@ Future<dynamic> addDiagnosis(docAppointment, context, update) {
                       patientId: docAppointment["patient_id"])
                   .then((value) {
                 if (value[0] == 200) {
+                  changeAppointment(appointmentId: docAppointment["appointment_id"], patientId: docAppointment["patient_id"], dialysisMachineId: dialysisMachineId, doctorId: docAppointment["doctor_id"], hospitalId: hospitalId, status: docAppointment["status"], time: docAppointment["time"], slot: docAppointment["slot"]);
                   snackBar("Added :)", context);
                 } else {
                   snackBar("Error :( ${value[0]}", context);
@@ -83,6 +84,7 @@ Future<dynamic> addDiagnosis(docAppointment, context, update) {
                 Navigator.pop(context);
                 Navigator.pop(context);
               });
+              
             },
             child: const Text("Done"))
       ],
