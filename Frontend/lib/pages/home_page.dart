@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    getAppointments(isFullFilled: false, patientId: box.get("userId")).then((value) {
+    getAppointments(patientId: box.get("userId"), status: "booked").then((value) {
       if (value[0] == 200) {
         appointments = value[1];
         setState(() {
