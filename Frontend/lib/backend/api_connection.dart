@@ -188,12 +188,12 @@ Future<List> makeAppointment({
 */
 Future<List> getAppointments({
   required int patientId,
-  required bool isFullFilled,
+  required String status,
 }) async {
   Dio dio = Dio();
   try {
     final result = await dio
-        .get('$apiLink/GetAppointments?patient_id=$patientId&unFullfilledOnly=$isFullFilled');
+        .get('$apiLink/GetAppointments?patient_id=$patientId&status=$status');
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
