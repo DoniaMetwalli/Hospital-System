@@ -188,12 +188,13 @@ Future<List> makeAppointment({
 */
 Future<List> getAppointments({
   required int patientId,
-  required String status,
+
+  String status = "",
 }) async {
   Dio dio = Dio();
   try {
-    final result = await dio
-        .get('$apiLink/GetAppointments?patient_id=$patientId&status=$status');
+    final result = await dio.get(
+        '$apiLink/GetAppointments?patient_id=$patientId${status.isEmpty ? "" : "&status=$status"}');
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
@@ -522,6 +523,6 @@ void main(List<String> args) async {
   //       phoneNumber: "01020304070",
   //       username: "TheGreatestDetective"),
   // );
-final person = {"fname":"donia"};
-print(person["age"]);
+  final person = {"fname": "donia"};
+  print(person["age"]);
 }
