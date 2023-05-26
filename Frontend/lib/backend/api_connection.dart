@@ -188,6 +188,7 @@ Future<List> makeAppointment({
 */
 Future<List> getAppointments({
   required int patientId,
+
   String status = "",
 }) async {
   Dio dio = Dio();
