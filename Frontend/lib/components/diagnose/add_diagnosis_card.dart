@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:hemodialysis_csci305/backend/api_connection.dart';
 import 'package:hemodialysis_csci305/components/shared_components.dart';
 
-import '../../backend/shared_variables.dart';
+import '../../../backend/shared_variables.dart';
 
-Card addDiagnosisCard(
-    Map<String, dynamic> docAppointment, BuildContext context, VoidCallback update) {
+Card addDiagnosisCard(Map<String, dynamic> docAppointment, BuildContext context,
+    VoidCallback update) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
     child: ListTile(
-        contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
+        contentPadding:
+            const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
         title: Text(
           "Patient Name: ${docAppointment["patient_name"]}",
           style: const TextStyle(
@@ -31,8 +32,8 @@ Card addDiagnosisCard(
   );
 }
 
-Future<dynamic> addDiagnosisAlert(
-    Map<String, dynamic> docAppointment, BuildContext context, VoidCallback update) {
+Future<dynamic> addDiagnosisAlert(Map<String, dynamic> docAppointment,
+    BuildContext context, VoidCallback update) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -75,18 +76,24 @@ Future<dynamic> addDiagnosis(docAppointment, context, VoidCallback update) {
                       patientId: docAppointment["patient_id"])
                   .then((value) {
                 if (value[0] == 200) {
-                  changeAppointment(appointmentId: docAppointment["appointment_id"], patientId: docAppointment["patient_id"], dialysisMachineId: docAppointment["dialysis_machine_id"], doctorId: docAppointment["doctor_id"], hospitalId: docAppointment["hospital_id"], status: "fulfilled", time: docAppointment["time"], slot: docAppointment["slot"]);
+                  changeAppointment(
+                      appointmentId: docAppointment["appointment_id"],
+                      patientId: docAppointment["patient_id"],
+                      dialysisMachineId: docAppointment["dialysis_machine_id"],
+                      doctorId: docAppointment["doctor_id"],
+                      hospitalId: docAppointment["hospital_id"],
+                      status: "fulfilled",
+                      time: docAppointment["time"],
+                      slot: docAppointment["slot"]);
                   snackBar("Added :)", context);
                 } else {
                   snackBar("Error :( ${value[0]}", context);
                 }
-                
-              });
-
                 Navigator.pop(context);
                 Navigator.pop(context);
                 Navigator.pop(context);
                 update();
+              });
             },
             child: const Text("Done"))
       ],

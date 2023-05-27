@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../backend/api_connection.dart';
 import '../backend/shared_variables.dart';
 import '../components/shared_components.dart';
-import 'add_diagnosis_card.dart';
+import '../components/diagnose/add_diagnosis_card.dart';
 
 class DiagnosisPage extends StatefulWidget {
   const DiagnosisPage({super.key});

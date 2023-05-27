@@ -7,6 +7,8 @@ const iconColor = Color.fromARGB(255, 101, 172, 137);
 const backgroundColor = Color.fromARGB(255, 218, 233, 218);
 const cardColor = Color.fromARGB(255, 125, 206, 167);
 const buttonColor = Color.fromARGB(255, 120, 226, 175);
+final textFieldBorderColor = Colors.green.shade300;
+final textFieldFocusBorderColor = Colors.green.shade800;
 bool homeLoading = true;
 
 List<List<double>> fontSize = [
@@ -21,10 +23,12 @@ List<String> stringKeys = [
   "gender",
   "phone",
   "birthdate",
-  "hospitalId",
+  "password",
+  "username"
 ];
 List<String> intKeys = [
   "userId",
+  "hospitalId",
 ];
 List<String> boolKeys = [
   "loged",

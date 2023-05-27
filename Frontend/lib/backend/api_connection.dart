@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:crypto/crypto.dart';
+import 'package:hemodialysis_csci305/backend/shared_variables.dart';
 
 String apiLink = "https://305.nucoders.dev:8090";
 
@@ -36,7 +37,8 @@ Future<List> login({
       '$apiLink/Login',
       data: {"hashedUsername": username, "hashedPassword": password},
     );
-
+    box.put("username", username);
+    box.put("password", password);
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
@@ -87,7 +89,8 @@ Future<List> signup({
         }
       },
     );
-
+    box.put("username", username);
+    box.put("password", password);
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
@@ -132,7 +135,8 @@ Future<List> getHospitals() async {
 Future<List> getMedicalRecord({required int patientId}) async {
   Dio dio = Dio();
   try {
-    final result = await dio.get('$apiLink/GetMedicalRecord?patient_id=$patientId');
+    final result =
+        await dio.get('$apiLink/GetMedicalRecord?patient_id=$patientId');
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
@@ -278,7 +282,8 @@ Future<List> changeAppointment({
 Future<List> getDialysisMachines({required int hospitalId}) async {
   Dio dio = Dio();
   try {
-    final result = await dio.get('$apiLink/GetDialysisMachines?hospitalID=$hospitalId');
+    final result =
+        await dio.get('$apiLink/GetDialysisMachines?hospitalID=$hospitalId');
     return [result.statusCode, result.data];
   } on DioError catch (e) {
     if (e.response != null) {
@@ -389,6 +394,61 @@ Future<List> editDialysisMachine({
         "dialysis_machine_id": dialysisMachineId,
         "hospital_id": hospitalId,
         "availability": availability
+      },
+    );
+    return [result.statusCode];
+  } on DioError catch (e) {
+    if (e.response != null) {
+      return [e.response!.statusCode];
+    }
+    return [-1];
+  }
+}
+
+/* return bool */
+Future<List> editUserInfo({
+  required int userId,
+  required String firstName,
+  required String lastName,
+  required String email,
+  required String phoneNumber,
+  required String username,
+  required String password,
+  required String gender,
+  String? birthdate,
+  bool? availability,
+  int? hospitalId,
+}) async {
+  Dio dio = Dio();
+  try {
+    final result = await dio.post(
+      '$apiLink/EditUserInfo',
+      data: {
+        "loginInfo": {
+          "hashedUsername": username,
+          "hashedPassword": password,
+        },
+        if (box.get("isPatient") == true)
+          "patientInfo": {
+            "user_id": userId,
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "phone_number": phoneNumber,
+            "birthdate": birthdate,
+            "gender": gender
+          }
+        else
+          "doctorInfo": {
+            "user_id": userId,
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "phone_number": phoneNumber,
+            "availability": availability,
+            "hospital_id": hospitalId,
+            "gender": gender
+          }
       },
     );
     return [result.statusCode];
@@ -552,5 +612,5 @@ void main(List<String> args) async {
   List<String> a = "2000-05-15".split('-');
   final b = DateTime(int.parse(a[0]), int.parse(a[1]), int.parse(a[2]));
   print(b);
-  print(DateTime.now().difference(b).inDays~/365);
+  print(DateTime.now().difference(b).inDays ~/ 365);
 }

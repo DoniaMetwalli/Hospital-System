@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-
-
 dynamic customButton({
-  required Color color,
+  Color? color,
   required String text,
   required VoidCallback pressFunction,
 }) {
@@ -13,7 +11,7 @@ dynamic customButton({
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 15),
       child: Container(
           decoration: BoxDecoration(
-            color: color,
+            color: color ?? Colors.green[400],
             borderRadius: BorderRadius.circular(6),
           ),
           padding: const EdgeInsets.all(15),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/pages/Edit_profile.dart';
 import 'package:hemodialysis_csci305/pages/medical_history.dart';
 import 'package:hemodialysis_csci305/pages/reservation_history.dart';
 import '../backend/shared_variables.dart';
@@ -23,7 +24,9 @@ class _SettingsState extends State<Settings> {
               text: "Edit Profile",
               icon: Icons.edit_document,
               pressFunction: () {
-                snackBar("Soon Or Maybe not :)", context);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const EditProfile(),
+                ));
               },
             ),
             AboutUsButton(
@@ -33,19 +36,18 @@ class _SettingsState extends State<Settings> {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const ReservationHistoryPage(),
                 ));
-                // snackBar("Soon Or Maybe not :)", context);
               },
             ),
-            AboutUsButton(
-              text: "Medical History",
-              icon: Icons.medical_information,
-              pressFunction: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const MedicalHistoryPage(),
-                ));
-                // snackBar("Soon Or Maybe not :)", context);
-              },
-            ),
+            if (box.get("isPatient"))
+              AboutUsButton(
+                text: "Medical History",
+                icon: Icons.medical_information,
+                pressFunction: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const MedicalHistoryPage(),
+                  ));
+                },
+              ),
             AboutUsButton(
               text: "Contact Us",
               icon: Icons.mail,

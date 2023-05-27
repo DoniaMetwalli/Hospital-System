@@ -32,7 +32,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.grey.shade50,
         body: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -97,12 +96,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             Navigator.of(context).pop();
                           },
                           text: "Registered?",
-                          color: const Color.fromARGB(255, 45, 130, 199)),
+                          color: Colors.green[800]),
                     ),
                     Flexible(
                       child: customButton(
                         text: "Register",
-                        color: const Color.fromARGB(255, 39, 187, 255),
+                        color: Colors.green[600],
                         pressFunction: () async {
                           if (password.text.isNotEmpty &&
                               email.text.isNotEmpty &&
@@ -135,15 +134,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                 box.put("birthdate", birthdate.text);
                                 box.put("loged", true);
                                 Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(builder: (context) => const IntialPage()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const IntialPage()),
                                     (Route<dynamic> route) => false);
                               } else {
-                                snackBar("Try again, Error ${result[0]}", context);
+                                snackBar(
+                                    "Try again, Error ${result[0]}", context);
                                 Navigator.pop(context);
                               }
                             } else {
                               snackBar(
-                                  "Password and Password Confirmation are not the same", context);
+                                  "Password and Password Confirmation are not the same",
+                                  context);
                             }
                           } else {
                             snackBar("Fill Password/Email Field", context);

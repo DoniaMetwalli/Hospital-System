@@ -22,18 +22,23 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
         resizeToAvoidBottomInset: true,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            loginTextField(hintText: "Your Username", obscureText: false, controller: user),
-            loginTextField(hintText: "Your Password", obscureText: true, controller: password),
+            loginTextField(
+                hintText: "Your Username",
+                obscureText: false,
+                controller: user),
+            loginTextField(
+                hintText: "Your Password",
+                obscureText: true,
+                controller: password),
             Row(
               children: [
                 Flexible(
                   child: customButton(
-                      color: const Color.fromARGB(255, 45, 130, 199),
+                      color: Colors.green[800],
                       text: "Register",
                       pressFunction: () {
                         Navigator.of(context).push(
@@ -50,11 +55,13 @@ class _LoginPageState extends State<LoginPage> {
                 Flexible(
                   child: customButton(
                     text: "Login",
-                    color: const Color.fromARGB(255, 39, 187, 255),
+                    color: Colors.green[600],
                     pressFunction: () async {
-                      if (user.text.trim().isNotEmpty && password.text.trim().isNotEmpty) {
+                      if (user.text.trim().isNotEmpty &&
+                          password.text.trim().isNotEmpty) {
                         loadingIndecatorContext(context);
-                        final result = await login(username: user.text, password: password.text);
+                        final result = await login(
+                            username: user.text, password: password.text);
                         if (result[0] == 200) {
                           box.put("loged", true);
                           box.put("userId", result[1]["user_id"]);
@@ -77,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         Navigator.pop(context);
                       } else {
-                        snackBar("Please fill Username/Password field. ╰（‵□′）╯", context);
+                        snackBar("Please fill Username/Password field. ╰（‵□′）╯",
+                            context);
                       }
                     },
                   ),
