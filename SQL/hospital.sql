@@ -154,6 +154,10 @@ SELECT a.appointment_id, a.dialysis_machine_id, a.patient_id, a.doctor_id, a.hos
 
 SELECT a.appointment_id,a.doctor_id, a.patient_id, a.time, a.status, a.slot,concat(p.first_name,' ',p.last_name) as patient_name, pa.birthday, p.gender ,p.phone_number ,a.dialysis_machine_id,a.hospital_id FROM appointment a, app_user p ,patient pa WHERE p.user_id = a.patient_id  and a.patient_id = pa.patient_id and a.doctor_id = 2000000;
 
-
+SELECT CONCAT(d.first_name, ' ', d.last_name) AS doctor_name, COUNT(a.doctor_id) AS number_of_appointments, h.hospital_name, a.status, a.time
+FROM app_user AS d
+INNER JOIN appointment AS a ON d.user_id = a.doctor_id
+INNER JOIN hospital AS h ON a.hospital_id = h.id
+GROUP BY a.doctor_id ORDER BY number_of_appointments ASC;
 
 
