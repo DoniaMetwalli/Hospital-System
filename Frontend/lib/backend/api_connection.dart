@@ -493,6 +493,8 @@ Future<List> addDoctor({
 }) async {
   Dio dio = Dio();
   try {
+    username = hashSha256(username.trim());
+    password = hashSha256(password.trim());
     final result = await dio.post(
       '$apiLink/AddDoctor',
       data: {
@@ -510,6 +512,37 @@ Future<List> addDoctor({
           "hashedUsername": username,
           "hashedPassword": password,
         }
+      },
+    );
+
+    return [result.statusCode];
+  } on DioError catch (e) {
+    if (e.response != null) {
+      return [e.response!.statusCode];
+    }
+    return [-1];
+  }
+}
+
+Future<List> addDialysisMachine({
+  required int startTime,
+  required int timeSlot,
+  required int slotCount,
+  required int price,
+  required int hospitalId,
+}) async {
+  Dio dio = Dio();
+  try {
+    final result = await dio.post(
+      '$apiLink/AddDialysisMachine',
+      data: {
+        "startTime": startTime,
+        "time_slot": timeSlot,
+        "slotCount": slotCount,
+        "price": price,
+        "dialysis_machine_id": 0,
+        "hospital_id": hospitalId,
+        "availability": true
       },
     );
 
@@ -626,5 +659,4 @@ void main(List<String> args) async {
   //       username: "TheGreatestDetective"),
   // );
   // [3, 7, 60]
-
 }
