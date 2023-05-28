@@ -293,6 +293,22 @@ Future<List> getDialysisMachines({required int hospitalId}) async {
   }
 }
 
+Future<List> getDialysisMachinesTimes(
+    {required String time, required int dialysisMachineId}) async {
+  Dio dio = Dio();
+  try {
+    final result = await dio.get(
+        '$apiLink/GetDialysisMachinesTimes?dialysis_machine_id=$dialysisMachineId&time=$time');
+    return [result.statusCode, result.data];
+  } on DioError catch (e) {
+    if (e.response != null) {
+      print(e.response);
+      return [e.response!.statusCode];
+    }
+    return [-1];
+  }
+}
+
 //ok
 /*
   Output : [200, [{user_id: 2000000, firstName: tom, lastName: tommy, email: potato@tomato.com, phone_number: 01020304060, gender: m, hospital_id: 3000000, availability: true}, {user_id: 2000001, firstName: John, lastName: Doe, email: test, phone_number: 00111555, gender: M, hospital_id: 3000000, availability: true}, {user_id: 2000002, firstName: John, lastName: Doe, email: test, phone_number: 00111555, gender: M, hospital_id: 3000000, availability: true}, {user_id: 2000003, firstName: John, lastName: Doe, email: test, phone_number: 00111555, gender: M, hospital_id: 3000000, availability: true}]]
@@ -609,4 +625,6 @@ void main(List<String> args) async {
   //       phoneNumber: "01020304070",
   //       username: "TheGreatestDetective"),
   // );
+  // [3, 7, 60]
+
 }

@@ -303,7 +303,7 @@ async def GetMedicalRecord(patient_id: int) -> list[MedicalRecord]:
 @app.post("/MakeAppointment")
 async def MakeAppointment(appointment: Appointment) -> bool:
     try:
-        query = "INSERT INTO appointment (appointment_id, dialysis_machine_id, patient_id, doctor_id,hospital_id, time, status, slot) VALUES(nextval('appointment_sequence'), %s, %s, %s, %s, %s, 'unfulfilled', %s);"
+        query = "INSERT INTO appointment (appointment_id, dialysis_machine_id, patient_id, doctor_id,hospital_id, time, status, slot) VALUES(nextval('appointment_sequence'), %s, %s, %s, %s, %s, 'booked', %s);"
         data = (appointment.dialysis_machine_id, appointment.patient_id,
                 appointment.doctor_id, appointment.hospital_id, appointment.time, appointment.slot)
         conn = psycopg2.connect(**dbInfo)
@@ -545,6 +545,31 @@ async def GetDialysisMachines(hospitalID: int) -> list[DialysisMachine]:
         dialysisMachines.append(DialysisMachine(
             dialysis_machine_id=result[0], hospital_id=result[1], startTime=result[2], time_slot=result[3], slotCount=result[4], price=result[5], availability=True))
     return dialysisMachines
+
+@app.get("/GetDialysisMachinesTimes")
+async def GetDialysisMachines(dialysis_machine_id: int, time:str):
+    query = f"select slot from appointment where dialysis_machine_id = {dialysis_machine_id}  and time = '{time}';"
+    query1 = f"select start_time from dialysis_machine where dialysis_machine_id = {dialysis_machine_id} union select time_slot from dialysis_machine where dialysis_machine_id = {dialysis_machine_id} union select slots_number from dialysis_machine where dialysis_machine_id = {dialysis_machine_id};" 
+    response = []
+    conn = psycopg2.connect(**dbInfo)
+    cnx = conn.cursor()
+    cnx.execute(query)
+    results = cnx.fetchall()
+    if results == None:
+        raise HTTPException(
+            status_code=404, detail="No dialysis machines found")
+    for result in results:
+        response.append(result[0])
+
+    cnx.execute(query1)
+    results = cnx.fetchall()
+    response_ = []
+    for result in results:
+        response_.append(result[0])
+    response.append(response_)
+    return response
+    conn.close()
+
 
 if __name__ == "__main__":
     import uvicorn

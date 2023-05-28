@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hemodialysis_csci305/backend/api_connection.dart';
-import 'package:hemodialysis_csci305/components/reserve/dialysis_cart.dart';
+import 'package:hemodialysis_csci305/components/reserve/dialysis_card.dart';
 
 import '../components/shared_components.dart';
 
 class SelectDialysisMachine extends StatefulWidget {
   final int hospitalId;
-  const SelectDialysisMachine({super.key, required this.hospitalId});
+  final int doctorId;
+  const SelectDialysisMachine(
+      {super.key, required this.hospitalId, required this.doctorId});
 
   @override
   State<SelectDialysisMachine> createState() => _SelectDialysisMachineState();
@@ -41,7 +43,9 @@ class _SelectDialysisMachineState extends State<SelectDialysisMachine> {
           : ListView.builder(
               itemCount: dialysisMachine.length,
               itemBuilder: (context, index) {
-                return dialysisCard(dialysisMachine[index], context);
+                print(dialysisMachine[index]);
+                return dialysisCard(
+                    dialysisMachine[index], context, widget.doctorId);
               },
             ),
     );

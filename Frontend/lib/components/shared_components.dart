@@ -4,7 +4,7 @@ import 'package:hemodialysis_csci305/backend/shared_variables.dart';
 import '../pages/intial_page.dart';
 
 dynamic snackBar(String message, BuildContext context,
-    {int duration = 1500, double fontSize = 16}) {
+    {int duration = 2000, double fontSize = 16}) {
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       duration: Duration(milliseconds: duration),
@@ -17,7 +17,8 @@ dynamic snackBar(String message, BuildContext context,
   );
 }
 
-dynamic loadingIndecatorContext(BuildContext context, {bool dismissible = false}) {
+dynamic loadingIndecatorContext(BuildContext context,
+    {bool dismissible = false}) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -33,8 +34,6 @@ dynamic loadingIndecatorContext(BuildContext context, {bool dismissible = false}
 dynamic loadingIndecator() {
   return const Center(child: CircularProgressIndicator());
 }
-
-
 
 void logout(BuildContext context) {
   for (var key in stringKeys) {
@@ -58,7 +57,10 @@ class AboutUsButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback pressFunction;
   const AboutUsButton(
-      {super.key, required this.text, required this.icon, required this.pressFunction});
+      {super.key,
+      required this.text,
+      required this.icon,
+      required this.pressFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -133,4 +135,8 @@ class AboutUsButtonV2 extends StatelessWidget {
       ),
     );
   }
+}
+
+void close(BuildContext context) {
+  Navigator.of(context).pop();
 }
