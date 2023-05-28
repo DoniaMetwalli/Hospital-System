@@ -154,6 +154,18 @@ SELECT a.appointment_id, a.dialysis_machine_id, a.patient_id, a.doctor_id, a.hos
 
 SELECT a.appointment_id,a.doctor_id, a.patient_id, a.time, a.status, a.slot,concat(p.first_name,' ',p.last_name) as patient_name, pa.birthday, p.gender ,p.phone_number ,a.dialysis_machine_id,a.hospital_id FROM appointment a, app_user p ,patient pa WHERE p.user_id = a.patient_id  and a.patient_id = pa.patient_id and a.doctor_id = 2000000;
 
+select slot from appointment where dialysis_machine_id = 4000000  and time = '2023-05-15';
+select start_time from dialysis_machine  union select time_slot  from dialysis_machine union select slots_number  from dialysis_machine;
+
+-- get total $ for hospital
+select  a.dialysis_machine_id , count(a.status) *d.price as total from appointment a,dialysis_machine d where a.status = 'fulfilled' and a.hospital_id = 3000000 and a.dialysis_machine_id = d.dialysis_machine_id
+group by a.dialysis_machine_id, a.status, d.price;
+
+-- for any given time
+select  a.dialysis_machine_id , count(a.status) *d.price as total from appointment a,dialysis_machine d where a.time = '2023-05-16' and a.status = 'fulfilled' and a.hospital_id = 3000000 and a.dialysis_machine_id = d.dialysis_machine_id
+group by a.dialysis_machine_id, a.status, d.price;
+
+
 SELECT CONCAT(d.first_name, ' ', d.last_name) AS doctor_name, COUNT(a.doctor_id) AS number_of_appointments, h.hospital_name, a.status, a.time
 FROM app_user AS d
 INNER JOIN appointment AS a ON d.user_id = a.doctor_id
