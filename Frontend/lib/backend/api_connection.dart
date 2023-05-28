@@ -609,8 +609,4 @@ void main(List<String> args) async {
   //       phoneNumber: "01020304070",
   //       username: "TheGreatestDetective"),
   // );
-  List<String> a = "2000-05-15".split('-');
-  final b = DateTime(int.parse(a[0]), int.parse(a[1]), int.parse(a[2]));
-  print(b);
-  print(DateTime.now().difference(b).inDays ~/ 365);
 }

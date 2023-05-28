@@ -44,7 +44,6 @@ dynamic doctorCard(Map<String, dynamic> doctorList, BuildContext context) {
               style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(buttonColor)),
               onPressed: () {
-                print(doctorList);
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => SelectDialysisMachine(
                       hospitalId: doctorList["hospital_id"]),

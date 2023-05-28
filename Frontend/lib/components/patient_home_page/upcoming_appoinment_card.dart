@@ -3,13 +3,15 @@ import 'package:hemodialysis_csci305/backend/api_connection.dart';
 
 import '../../backend/shared_variables.dart';
 
-Card upcomingAppoinmentCard(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
+Card upcomingAppoinmentCard(Map<String, dynamic> appointmentsList,
+    BuildContext context, VoidCallback update,
+    {bool history = false}) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
     child: ListTile(
-        contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
+        contentPadding:
+            const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
         title: Text(
           "Hospital Name: ${appointmentsList["hospital"]["name"]}",
           style: const TextStyle(
@@ -25,13 +27,15 @@ Card upcomingAppoinmentCard(
             )),
         isThreeLine: true,
         onTap: () {
-          upcomingAppoinmentAlert(appointmentsList, context, update);
+          upcomingAppoinmentAlert(appointmentsList, context, update,
+              history: history);
         }),
   );
 }
 
-Future<dynamic> upcomingAppoinmentAlert(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
+Future<dynamic> upcomingAppoinmentAlert(Map<String, dynamic> appointmentsList,
+    BuildContext context, VoidCallback picoWillBeKidnapped,
+    {bool history = false}) {
   final hospital = appointmentsList["hospital"];
   final appointment = appointmentsList["appointment"];
   return showDialog(
@@ -42,10 +46,12 @@ Future<dynamic> upcomingAppoinmentAlert(
           "Hospital Name: ${hospital["name"]}\nHospital Address: ${hospital["address"]}\nAppointment Time: ${appointment["time"]}\nDoctor's Name: ${appointmentsList["doctorName"]},\nDoctor's Phone: ${appointmentsList["doctorPhone"]},\nHospital Phone: ${hospital["phone_number"]},\nHospital E-mail: ${hospital["email"]},\nStatus: ${appointment["status"]}",
           style: const TextStyle(fontSize: 18)),
       actions: [
-        TextButton(
-          onPressed: () => confirmCancel(appointmentsList, context, picoWillBeKidnapped),
-          child: const Text("Cancel Appointment"),
-        ),
+        if (!history)
+          TextButton(
+            onPressed: () =>
+                confirmCancel(appointmentsList, context, picoWillBeKidnapped),
+            child: const Text("Cancel Appointment"),
+          ),
         TextButton(
           onPressed: () => close(context),
           child: const Text("Okay"),
@@ -55,14 +61,15 @@ Future<dynamic> upcomingAppoinmentAlert(
   );
 }
 
-Future confirmCancel(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
+Future confirmCancel(Map<String, dynamic> appointmentsList,
+    BuildContext context, VoidCallback picoWillBeKidnapped) {
   final appointment = appointmentsList["appointment"];
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Confirm"),
-      content: const Text("Please click the button to confirm your cancellation"),
+      content:
+          const Text("Please click the button to confirm your cancellation"),
       actions: [
         TextButton(
           onPressed: () {

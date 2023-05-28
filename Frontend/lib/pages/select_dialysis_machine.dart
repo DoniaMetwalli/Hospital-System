@@ -19,7 +19,6 @@ class _SelectDialysisMachineState extends State<SelectDialysisMachine> {
   void initState() {
     getDialysisMachines(hospitalId: widget.hospitalId).then(
       (value) {
-        print(value);
         if (value[0] == 200) {
           dialysisMachine = value[1];
           setState(() {

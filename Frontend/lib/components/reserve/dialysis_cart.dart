@@ -41,7 +41,6 @@ dynamic dialysisCard(Map<String, dynamic> dialysisList, BuildContext context) {
               style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(buttonColor)),
               onPressed: () {
-                print(dialysisList);
               },
               child: const Text(
                 "Reserve",

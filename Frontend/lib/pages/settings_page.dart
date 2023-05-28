@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hemodialysis_csci305/pages/Edit_profile.dart';
+import 'package:hemodialysis_csci305/pages/edit_profile.dart';
 import 'package:hemodialysis_csci305/pages/medical_history.dart';
 import 'package:hemodialysis_csci305/pages/reservation_history.dart';
 import '../backend/shared_variables.dart';

@@ -4,14 +4,14 @@ import 'package:hemodialysis_csci305/components/shared_components.dart';
 
 import '../../backend/shared_variables.dart';
 
-Card upcomingAppoinmentCard(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
-  print(appointmentsList);
+Card upcomingAppoinmentCard(Map<String, dynamic> appointmentsList,
+    BuildContext context, VoidCallback update) {
   return Card(
     color: cardColor,
     margin: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
     child: ListTile(
-        contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
+        contentPadding:
+            const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 8),
         title: Text(
           "Patient: ${appointmentsList["patient_name"]}",
           style: const TextStyle(
@@ -32,11 +32,11 @@ Card upcomingAppoinmentCard(
   );
 }
 
-Future<dynamic> upcomingAppoinmentAlert(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback update) {
+Future<dynamic> upcomingAppoinmentAlert(Map<String, dynamic> appointmentsList,
+    BuildContext context, VoidCallback update) {
   final birthdateList = appointmentsList["birthdate"].split('-');
-  final birthdate = DateTime(
-      int.parse(birthdateList[0]), int.parse(birthdateList[1]), int.parse(birthdateList[2]));
+  final birthdate = DateTime(int.parse(birthdateList[0]),
+      int.parse(birthdateList[1]), int.parse(birthdateList[2]));
   final age = DateTime.now().difference(birthdate).inDays ~/ 365;
 
   return showDialog(
@@ -44,7 +44,7 @@ Future<dynamic> upcomingAppoinmentAlert(
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-          "Patient: ${appointmentsList["patient_name"]}\nGender: ${appointmentsList["gender"] == 'm' ? "male" : "female"}\nAge: $age\nPhone: ${appointmentsList["phone_number"]}",
+          "Patient: ${appointmentsList["patient_name"]}\nGender: ${appointmentsList["gender"] == 'm' ? "male" : "female"}\nAge: $age\nPhone: ${appointmentsList["phone_number"]}\nAppointment Time: ${appointmentsList["time"]}",
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
@@ -60,13 +60,14 @@ Future<dynamic> upcomingAppoinmentAlert(
   );
 }
 
-Future confirmCancel(
-    Map<String, dynamic> appointmentsList, BuildContext context, VoidCallback picoWillBeKidnapped) {
+Future confirmCancel(Map<String, dynamic> appointmentsList,
+    BuildContext context, VoidCallback picoWillBeKidnapped) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Confirm"),
-      content: const Text("Please click the button to confirm your cancellation"),
+      content:
+          const Text("Please click the button to confirm your cancellation"),
       actions: [
         TextButton(
           onPressed: () {

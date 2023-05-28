@@ -72,24 +72,27 @@ class _EditProfileState extends State<EditProfile> {
                   obscureText: false,
                   controller: phoneNumber,
                   keyboardType: TextInputType.phone),
-              textFieldLable(labelText: "Birthdate:"),
-              dateField(
-                  controller: birthdate,
-                  hintText: "Your Birthdate",
-                  obscureText: false,
-                  context: context),
+              if (box.get("isPatient")) textFieldLable(labelText: "Birthdate:"),
+              if (box.get("isPatient"))
+                dateField(
+                    controller: birthdate,
+                    hintText: "Your Birthdate",
+                    obscureText: false,
+                    context: context),
               textFieldLable(labelText: "Gender:"),
               genderField(
                   controller: gender,
                   hintText: "Your Gender",
                   obscureText: false,
                   context: context),
-              textFieldLable(labelText: "Availability:"),
-              availabilityField(
-                  controller: available,
-                  hintText: "Your Availability",
-                  obscureText: false,
-                  context: context),
+              if (!box.get("isPatient"))
+                textFieldLable(labelText: "Availability:"),
+              if (!box.get("isPatient"))
+                availabilityField(
+                    controller: available,
+                    hintText: "Your Availability",
+                    obscureText: false,
+                    context: context),
 
               // loginTextField(
               //   hintText: "Your Username",

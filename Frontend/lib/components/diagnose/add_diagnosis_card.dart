@@ -20,7 +20,7 @@ Card addDiagnosisCard(Map<String, dynamic> docAppointment, BuildContext context,
           ),
         ),
         subtitle: Text(
-            "Patient ID: ${docAppointment["patient_id"]}\nAppointment ID: ${docAppointment["appointment_id"]}",
+            "Gender: ${docAppointment["gender"] == 'm' ? "male" : "female"}\nAppointment Time: ${docAppointment["time"]}",
             style: const TextStyle(
               // fontSize: 8,
               fontWeight: FontWeight.w400,
@@ -32,14 +32,22 @@ Card addDiagnosisCard(Map<String, dynamic> docAppointment, BuildContext context,
   );
 }
 
+// {appointment_id: 6000002, doctor_id: 2000000, patient_id: 1000000, hospital_id: 3000000,
+// dialysis_machine_id: 4000000, time: 2023-05-17, status: booked, slot: 0,
+// patient_name: potato2 tomato, birthdate: 2000-05-15, gender: m, phone_number: 01020304050}
+
 Future<dynamic> addDiagnosisAlert(Map<String, dynamic> docAppointment,
     BuildContext context, VoidCallback update) {
+  final birthdateList = docAppointment["birthdate"].split('-');
+  final birthdate = DateTime(int.parse(birthdateList[0]),
+      int.parse(birthdateList[1]), int.parse(birthdateList[2]));
+  final age = DateTime.now().difference(birthdate).inDays ~/ 365;
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Details"),
       content: SelectableText(
-          "Patient Name: ${docAppointment["patient_name"]}\nPatient ID: ${docAppointment["patient_id"]}\nAppointment ID: ${docAppointment["appointment_id"]}\nAppointment Time: ${docAppointment["time"]}\nPatient Birthday: ${docAppointment["birthdate"]}\nPatient Phone: ${docAppointment["phone_number"]}",
+          "Patient: ${docAppointment["patient_name"]}\nGender: ${docAppointment["gender"] == 'm' ? "male" : "female"}\nAge: $age\nPhone: ${docAppointment["phone_number"]}\nAppointment Time: ${docAppointment["time"]}",
           style: const TextStyle(fontSize: 18)),
       actions: [
         TextButton(
@@ -77,22 +85,29 @@ Future<dynamic> addDiagnosis(docAppointment, context, VoidCallback update) {
                   .then((value) {
                 if (value[0] == 200) {
                   changeAppointment(
-                      appointmentId: docAppointment["appointment_id"],
-                      patientId: docAppointment["patient_id"],
-                      dialysisMachineId: docAppointment["dialysis_machine_id"],
-                      doctorId: docAppointment["doctor_id"],
-                      hospitalId: docAppointment["hospital_id"],
-                      status: "fulfilled",
-                      time: docAppointment["time"],
-                      slot: docAppointment["slot"]);
-                  snackBar("Added :)", context);
+                          appointmentId: docAppointment["appointment_id"],
+                          patientId: docAppointment["patient_id"],
+                          dialysisMachineId:
+                              docAppointment["dialysis_machine_id"],
+                          doctorId: docAppointment["doctor_id"],
+                          hospitalId: docAppointment["hospital_id"],
+                          status: "fulfilled",
+                          time: docAppointment["time"],
+                          slot: docAppointment["slot"])
+                      .then((value) {
+                    if (value[0] == 200) {
+                      snackBar("Added :)", context);
+                    } else {
+                      snackBar("Error :( ${value[0]}", context);
+                    }
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    update();
+                  });
                 } else {
                   snackBar("Error :( ${value[0]}", context);
                 }
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                update();
               });
             },
             child: const Text("Done"))
