@@ -24,14 +24,18 @@ List<String> stringKeys = [
   "phone",
   "birthdate",
   "password",
-  "username"
+  "username",
+  "hospitalName",
+  "address",
+  "city",
+  "area"
 ];
 List<String> intKeys = [
   "userId",
   "hospitalId",
+  "isPatient",
 ];
 List<String> boolKeys = [
   "loged",
   "availability",
-  "isPatient",
 ];

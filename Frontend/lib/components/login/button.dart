@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-dynamic customButton({
-  Color? color,
-  required String text,
-  required VoidCallback pressFunction,
-}) {
+dynamic customButton(
+    {Color? color,
+    required String text,
+    required VoidCallback pressFunction,
+    VoidCallback? longPressFunction}) {
   return GestureDetector(
+    onLongPress: longPressFunction,
     onTap: pressFunction,
     child: Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 15),

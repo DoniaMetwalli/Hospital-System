@@ -234,6 +234,23 @@ Future<List> getDoctorAppointments({
   }
 }
 
+Future<List> getHospitalAppointments({
+  required int hospitalId,
+  String status = "",
+}) async {
+  Dio dio = Dio();
+  try {
+    final result = await dio.get(
+        '$apiLink/GetHospitalAppointments?hospital_id=$hospitalId${status.isEmpty ? "" : "&status=$status"}');
+    return [result.statusCode, result.data];
+  } on DioError catch (e) {
+    if (e.response != null) {
+      return [e.response!.statusCode];
+    }
+    return [-1];
+  }
+}
+
 //ok
 /*
   Output : [200]
@@ -444,7 +461,7 @@ Future<List> editUserInfo({
           "hashedUsername": username,
           "hashedPassword": password,
         },
-        if (box.get("isPatient") == true)
+        if (box.get("isPatient") == 0)
           "patientInfo": {
             "user_id": userId,
             "firstName": firstName,
