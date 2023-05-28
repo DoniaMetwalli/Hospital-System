@@ -46,7 +46,9 @@ dynamic doctorCard(Map<String, dynamic> doctorList, BuildContext context) {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => SelectDialysisMachine(
-                      hospitalId: doctorList["hospital_id"]),
+                    hospitalId: doctorList["hospital_id"],
+                    doctorId: doctorList["user_id"],
+                  ),
                 ));
               },
               child: const Text(

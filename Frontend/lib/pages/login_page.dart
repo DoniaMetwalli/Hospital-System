@@ -56,6 +56,35 @@ class _LoginPageState extends State<LoginPage> {
                   child: customButton(
                     text: "Login",
                     color: Colors.green[600],
+                    longPressFunction: () async {
+                      if (user.text.trim().isNotEmpty &&
+                          password.text.trim().isNotEmpty) {
+                        loadingIndecatorContext(context);
+                        final result = await loginHospital(
+                          username: user.text,
+                          password: password.text,
+                        );
+                        if (result[0] == 200) {
+                          box.put("loged", true);
+                          box.put("hospitalId", result[1]["id"]);
+                          box.put("hospitalName", result[1]["name"]);
+                          box.put("address", result[1]["address"]);
+                          box.put("city", result[1]["city"]);
+                          box.put("area", result[1]["area"]);
+                          box.put("email", result[1]["email"]);
+                          box.put("phone", result[1]["phone_number"]);
+                          box.put("isPatient", 2);
+
+                          widget.loged();
+                        } else {
+                          snackBar("you are not a user", context);
+                        }
+                        Navigator.pop(context);
+                      } else {
+                        snackBar("Please fill Username/Password field. ╰（‵□′）╯",
+                            context);
+                      }
+                    },
                     pressFunction: () async {
                       if (user.text.trim().isNotEmpty &&
                           password.text.trim().isNotEmpty) {
@@ -72,11 +101,11 @@ class _LoginPageState extends State<LoginPage> {
                           box.put("phone", result[1]["phone_number"]);
                           if (result[1]["birthdate"] != null) {
                             box.put("birthdate", result[1]["birthdate"]);
-                            box.put("isPatient", true);
+                            box.put("isPatient", 0);
                           } else {
                             box.put("hospitalId", result[1]["hospital_id"]);
                             box.put("availability", result[1]["availability"]);
-                            box.put("isPatient", false);
+                            box.put("isPatient", 1);
                           }
                           widget.loged();
                         } else {

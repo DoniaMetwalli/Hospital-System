@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hemodialysis_csci305/pages/add_dialysis.dart';
+import 'package:hemodialysis_csci305/pages/add_doctor.dart';
 import 'package:hemodialysis_csci305/pages/edit_profile.dart';
 import 'package:hemodialysis_csci305/pages/medical_history.dart';
 import 'package:hemodialysis_csci305/pages/reservation_history.dart';
@@ -20,6 +22,36 @@ class _SettingsState extends State<Settings> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            if (box.get("isPatient") == 2)
+              AboutUsButton(
+                text: "Add Doctor",
+                icon: Icons.person_add,
+                pressFunction: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AddDoctor(),
+                  ));
+                },
+              ),
+            if (box.get("isPatient") == 2)
+              AboutUsButton(
+                text: "Add Diaylsis Machine",
+                icon: Icons.add_to_queue_rounded,
+                pressFunction: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AddDialysisMachine(),
+                  ));
+                },
+              ),
+            if (box.get("isPatient") == 2)
+              AboutUsButton(
+                text: "Reports",
+                icon: Icons.receipt_rounded,
+                pressFunction: () {
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //   builder: (context) => const AddDialysisMachine(),
+                  // ));
+                },
+              ),
             AboutUsButton(
               text: "Edit Profile",
               icon: Icons.edit_document,
@@ -38,7 +70,7 @@ class _SettingsState extends State<Settings> {
                 ));
               },
             ),
-            if (box.get("isPatient"))
+            if (box.get("isPatient") == 0)
               AboutUsButton(
                 text: "Medical History",
                 icon: Icons.medical_information,

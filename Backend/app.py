@@ -303,7 +303,7 @@ async def GetMedicalRecord(patient_id: int) -> list[MedicalRecord]:
 @app.post("/MakeAppointment")
 async def MakeAppointment(appointment: Appointment) -> bool:
     try:
-        query = "INSERT INTO appointment (appointment_id, dialysis_machine_id, patient_id, doctor_id,hospital_id, time, status, slot) VALUES(nextval('appointment_sequence'), %s, %s, %s, %s, %s, 'unfulfilled', %s);"
+        query = "INSERT INTO appointment (appointment_id, dialysis_machine_id, patient_id, doctor_id,hospital_id, time, status, slot) VALUES(nextval('appointment_sequence'), %s, %s, %s, %s, %s, 'booked', %s);"
         data = (appointment.dialysis_machine_id, appointment.patient_id,
                 appointment.doctor_id, appointment.hospital_id, appointment.time, appointment.slot)
         conn = psycopg2.connect(**dbInfo)
@@ -370,7 +370,33 @@ async def GetAppointments(doctor_id: int, status: str = ""):
 
     conn.close()
     return appointments
+@app.get("/GetHospitalAppointments")
+async def GetAppointments(hospital_id: int, status: str = ""):
+    if len(status) != 0 and status not in appointment_status:
+        raise HTTPException(
+            status_code=400,  # bad request
+        )
 
+    query = f"SELECT a.appointment_id, a.doctor_id, a.patient_id, a.time, a.status, a.slot,concat(p.first_name,' ',p.last_name) as patient_name, pa.birthday, p.gender, p.phone_number ,a.dialysis_machine_id,a.hospital_id  FROM appointment a, app_user p ,patient pa WHERE p.user_id = a.patient_id  and a.patient_id = pa.patient_id and a.hospital_id = {hospital_id}"
+
+    if len(status) != 0:
+        query += f" AND a.status = '{status}'"
+
+    query += ";"
+    data = (hospital_id,)
+    conn = psycopg2.connect(**dbInfo)
+    cnx = conn.cursor()
+    cnx.execute(query, data)
+    results = cnx.fetchall()
+    appointments = []
+    for result in results:
+        print(result)
+        appointments.append({
+            "appointment_id": result[0], "doctor_id": result[1], "patient_id": result[2],  "hospital_id": result[11], "dialysis_machine_id": result[10], "time": result[3], "status": result[4], "slot": result[5], "patient_name": result[6], "birthdate": result[7], "gender": result[8], "phone_number": result[9]
+        })
+
+    conn.close()
+    return appointments
 
 @app.post("/ChangeAppointment")
 async def ChangeAppointment(appointment: Appointment) -> bool:
@@ -545,6 +571,31 @@ async def GetDialysisMachines(hospitalID: int) -> list[DialysisMachine]:
         dialysisMachines.append(DialysisMachine(
             dialysis_machine_id=result[0], hospital_id=result[1], startTime=result[2], time_slot=result[3], slotCount=result[4], price=result[5], availability=True))
     return dialysisMachines
+
+@app.get("/GetDialysisMachinesTimes")
+async def GetDialysisMachines(dialysis_machine_id: int, time:str):
+    query = f"select slot from appointment where dialysis_machine_id = {dialysis_machine_id}  and time = '{time}';"
+    query1 = f"select start_time from dialysis_machine where dialysis_machine_id = {dialysis_machine_id} union select time_slot from dialysis_machine where dialysis_machine_id = {dialysis_machine_id} union select slots_number from dialysis_machine where dialysis_machine_id = {dialysis_machine_id};" 
+    response = []
+    conn = psycopg2.connect(**dbInfo)
+    cnx = conn.cursor()
+    cnx.execute(query)
+    results = cnx.fetchall()
+    if results == None:
+        raise HTTPException(
+            status_code=404, detail="No dialysis machines found")
+    for result in results:
+        response.append(result[0])
+
+    cnx.execute(query1)
+    results = cnx.fetchall()
+    response_ = []
+    for result in results:
+        response_.append(result[0])
+    response.append(response_)
+    return response
+    conn.close()
+
 
 if __name__ == "__main__":
     import uvicorn
