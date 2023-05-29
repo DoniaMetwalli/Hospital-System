@@ -72,8 +72,9 @@ class _EditProfileState extends State<EditProfile> {
                   obscureText: false,
                   controller: phoneNumber,
                   keyboardType: TextInputType.phone),
-              if (box.get("isPatient")) textFieldLable(labelText: "Birthdate:"),
-              if (box.get("isPatient"))
+              if (box.get("isPatient") == 0)
+                textFieldLable(labelText: "Birthdate:"),
+              if (box.get("isPatient") == 0)
                 dateField(
                     controller: birthdate,
                     hintText: "Your Birthdate",
@@ -85,33 +86,14 @@ class _EditProfileState extends State<EditProfile> {
                   hintText: "Your Gender",
                   obscureText: false,
                   context: context),
-              if (!box.get("isPatient"))
+              if (box.get("isPatient") == 1)
                 textFieldLable(labelText: "Availability:"),
-              if (!box.get("isPatient"))
+              if (box.get("isPatient") == 1)
                 availabilityField(
                     controller: available,
                     hintText: "Your Availability",
                     obscureText: false,
                     context: context),
-
-              // loginTextField(
-              //   hintText: "Your Username",
-              //   obscureText: false,
-              //   controller: username,
-              //   keyboardType: TextInputType.name,
-              // ),
-              // loginTextField(
-              //   hintText: "Your Password",
-              //   obscureText: true,
-              //   controller: password,
-              //   keyboardType: TextInputType.name,
-              // ),
-              // loginTextField(
-              //   hintText: "Re-enter Your Password",
-              //   obscureText: true,
-              //   controller: passwordConfirmation,
-              //   keyboardType: TextInputType.name,
-              // ),
               customButton(
                 text: "Update",
                 color: Colors.green[600],
@@ -122,15 +104,38 @@ class _EditProfileState extends State<EditProfile> {
                       phoneNumber.text.isNotEmpty &&
                       email.text.isNotEmpty &&
                       gender.text.isNotEmpty) {
-                    if (box.get("isPatient") && birthdate.text.isNotEmpty) {
-                      // edituser
-                    } else if (box.get("isPatient") &&
+                    if (box.get("isPatient") == 0 &&
+                        birthdate.text.isNotEmpty) {
+                      final result = await editUserInfo(
+                        firstName: firstName.text,
+                        birthdate: birthdate.text,
+                        email: email.text,
+                        lastName: lastName.text,
+                        phoneNumber: phoneNumber.text,
+                        hospitalId: box.get("hospitalId"),
+                        password: box.get("password"),
+                        username: box.get("username"),
+                        userId: box.get("userId"),
+                        gender: gender.text[0].toLowerCase(),
+                      );
+                      if (result[0] == 200) {
+                        box.put("birthdate", birthdate.text);
+                        box.put("firstName", firstName.text);
+                        box.put("lastName", lastName.text);
+                        box.put("email", email.text);
+                        box.put("gender", gender.text[0].toLowerCase());
+                        box.put("phone", phoneNumber.text);
+                        snackBar("Done :)", context);
+                      } else {
+                        snackBar("Try again, Error ${result[0]}", context);
+                      }
+                      Navigator.pop(context);
+                    } else if (box.get("isPatient") == 1 &&
                         available.text.isNotEmpty) {}
                     // if (password.text == passwordConfirmation.text) {
                     loadingIndecatorContext(context);
                     final result = await editUserInfo(
                       firstName: firstName.text,
-                      birthdate: birthdate.text,
                       email: email.text,
                       lastName: lastName.text,
                       phoneNumber: phoneNumber.text,
@@ -144,7 +149,6 @@ class _EditProfileState extends State<EditProfile> {
                     if (result[0] == 200) {
                       box.put("availability",
                           available.text == "true" ? true : false);
-                      box.put("birthdate", birthdate.text);
                       box.put("firstName", firstName.text);
                       box.put("lastName", lastName.text);
                       box.put("email", email.text);
@@ -153,11 +157,6 @@ class _EditProfileState extends State<EditProfile> {
                       snackBar("Done :)", context);
                     } else {
                       snackBar("Try again, Error ${result[0]}", context);
-                      // }
-                      // } else {
-                      //   snackBar(
-                      //       "Password and Password Confirmation are not the same",
-                      //       context);
                     }
                     Navigator.pop(context);
                   } else {

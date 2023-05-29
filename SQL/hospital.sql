@@ -161,3 +161,34 @@ INNER JOIN hospital AS h ON a.hospital_id = h.id
 GROUP BY a.doctor_id ORDER BY number_of_appointments ASC;
 
 
+-- used sql in doc user and pass : test
+INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+VALUES (2000000, 'Yusuf', 'Alsayed', '01020304060', 'm', 'y.alsayed@example.com', 'd', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+
+INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+VALUES (1000000, 'Sabry', 'Alsawah', '01020304050', 'm', 's.alsawah@example.com', 'p', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+
+INSERT INTO public.app_user (user_id, first_name, last_name, phone_number, gender, email, user_type, username, password)
+VALUES (2000001, 'Manar', 'Omar', '01020304050', 'f', 'm.omar@example.com', 'd', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+
+
+INSERT INTO public.hospital (hospital_id, hospital_name, address, phone_number, email, city, area, username, password)
+VALUES (3000000, 'Metwally''s hospital', 'Giza / 6-October / 1st', '01020304070', 'contact@metwally_hospital.com', 'giza', '6-october',
+        '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+       
+INSERT INTO public.hospital (hospital_id, hospital_name, address, phone_number, email, city, area, username, password)
+VALUES (3000001, 'Moustafa''s hospital', 'Cairo / Nasr City / 1st', '01020304070', 'contact@moustafa_hospital.com', 'cairo', 'Nasr City',
+        '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
+        
+INSERT INTO public.doctor (doctor_id, hospital_id)
+VALUES (2000000, 3000000);
+
+INSERT INTO public.doctor (doctor_id, hospital_id)
+VALUES (2000001, 3000000);
+
+INSERT INTO public.patient (birthday, patient_id)
+VALUES ('2000-05-15', 1000000);
+
+INSERT INTO public.dialysis_machine (start_time, time_slot, slots_number, price, availability, dialysis_machine_id,
+                                     hospital_id)
+VALUES (7, 60, 3, 320, true, 4000000, 3000000);
